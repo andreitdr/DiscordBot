@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30804.86
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiscordBot", "DiscordBot\DiscordBot.csproj", "{39E3251E-B19C-421C-8BA6-40B606BDB9FF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiscordBotPluginManager", "DiscordBotPluginManager\DiscordBotPluginManager.csproj", "{AB126DA3-9755-4091-B498-6AC44E5ABE6D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{39E3251E-B19C-421C-8BA6-40B606BDB9FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{39E3251E-B19C-421C-8BA6-40B606BDB9FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{39E3251E-B19C-421C-8BA6-40B606BDB9FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{39E3251E-B19C-421C-8BA6-40B606BDB9FF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AB126DA3-9755-4091-B498-6AC44E5ABE6D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AB126DA3-9755-4091-B498-6AC44E5ABE6D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AB126DA3-9755-4091-B498-6AC44E5ABE6D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AB126DA3-9755-4091-B498-6AC44E5ABE6D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C77FFE36-1029-4841-9C83-D102F4E63B02}
+	EndGlobalSection
+EndGlobal
