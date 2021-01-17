@@ -1,5 +1,4 @@
 ﻿using DiscordBot.Discord.Core;
-using DiscordBot.Online.Patcher;
 
 using DiscordBotPluginManager;
 

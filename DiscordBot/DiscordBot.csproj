@@ -106,21 +106,10 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="Online\FileDownloader.cs" />
-    <Compile Include="Online\Interface\Plugins.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Online\Interface\Plugins.Designer.cs">
-      <DependentUpon>Plugins.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Online\PluginDownloader.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Online\Interface\Plugins.resx">
-      <DependentUpon>Plugins.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
