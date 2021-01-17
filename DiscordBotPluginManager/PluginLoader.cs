@@ -35,8 +35,10 @@ namespace DiscordBotPluginManager
                 }
             }
             else
+            {
+                Directory.CreateDirectory(pluginCMDFolder);
                 return 0;
-
+            }
             if (Directory.Exists(pluginADDFolder))
             {
                 string[] files = Directory.GetFiles(pluginADDFolder).Where(p => p.EndsWith(pluginExtension)).ToArray();
@@ -49,7 +51,10 @@ namespace DiscordBotPluginManager
                 }
             }
             else
+            {
+                Directory.CreateDirectory(pluginADDFolder);
                 return 0;
+            }
 
             try
             {
