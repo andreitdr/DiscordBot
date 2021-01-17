@@ -24,7 +24,6 @@ D:\Stuff\Files\Visual Studio Builds\Discord Bot\DiscordBot\DiscordBotPluginManag
 D:\Stuff\Files\Visual Studio Builds\Discord Bot\DiscordBot\DiscordBotPluginManager\bin\Debug\System.Linq.Async.xml
 D:\Stuff\Files\Visual Studio Builds\Discord Bot\DiscordBot\DiscordBotPluginManager\bin\Debug\System.Runtime.CompilerServices.Unsafe.xml
 D:\Stuff\Files\Visual Studio Builds\Discord Bot\DiscordBot\DiscordBotPluginManager\bin\Debug\System.Threading.Tasks.Extensions.xml
-D:\Stuff\Files\Visual Studio Builds\Discord Bot\DiscordBot\DiscordBotPluginManager\obj\Debug\DiscordBotPluginManager.csprojAssemblyReference.cache
 D:\Stuff\Files\Visual Studio Builds\Discord Bot\DiscordBot\DiscordBotPluginManager\obj\Debug\DiscordBotPluginManager.csproj.CoreCompileInputs.cache
 D:\Stuff\Files\Visual Studio Builds\Discord Bot\DiscordBot\DiscordBotPluginManager\obj\Debug\DiscordBotPluginManager.csproj.CopyComplete
 D:\Stuff\Files\Visual Studio Builds\Discord Bot\DiscordBot\DiscordBotPluginManager\obj\Debug\DiscordBotPluginManager.dll
