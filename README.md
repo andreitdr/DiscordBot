@@ -6,3 +6,5 @@ Required in the folder where the .exe file is:
 .\Data\Plugins\Commands<br>
 .\Data\Plugins\Addons<br>
 .\Data\Managed<br>
+
+Requires Discord.Net packages to run
