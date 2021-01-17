@@ -1,6 +1,0 @@
-packages
-DiscordBot/bin
-DiscordBot/obj
-DiscordBotPluginManager/obj
-DiscordBotPluginManager/bin
-.gitignore
