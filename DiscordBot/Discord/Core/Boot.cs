@@ -41,7 +41,7 @@ namespace DiscordBot.Discord.Core
             commandSericeHandler = new CommandHandler(client, service, botPrefix[0]);
             await commandSericeHandler.InstallCommandsAsync();
 
-            await Task.Delay(-1);
+            await Task.Delay(-2);
         }
 
         private void CommonTasks()
