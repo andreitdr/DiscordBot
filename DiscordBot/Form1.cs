@@ -30,7 +30,7 @@ namespace DiscordBot
                 textBoxPrefix.Text = readCodeFromFile("DiscordBotCore.data", SearchDirectory.RESOURCES, "BOT_PREFIX", '\t');
 
                 if (textBoxPrefix.Text.Length != 59)
-                    throw new System.Exception("token invalid");
+                    throw new System.Exception("Invalid Token");
             }
             catch
             {
