@@ -1,0 +1,11 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\DiscordBot",
+    "\\DiscordBotPluginManager",
+    "\\DiscordBot\\Discord",
+    "\\DiscordBot\\Discord\\Core"
+  ],
+  "SelectedNode": "\\DiscordBotPluginManager\\PluginLoader.cs",
+  "PreviewInSolutionExplorer": false
+}

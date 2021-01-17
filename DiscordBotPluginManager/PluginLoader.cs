@@ -37,8 +37,8 @@ namespace DiscordBotPluginManager
             else
             {
                 Directory.CreateDirectory(pluginCMDFolder);
-                return 0;
             }
+
             if (Directory.Exists(pluginADDFolder))
             {
                 string[] files = Directory.GetFiles(pluginADDFolder).Where(p => p.EndsWith(pluginExtension)).ToArray();
@@ -53,44 +53,43 @@ namespace DiscordBotPluginManager
             else
             {
                 Directory.CreateDirectory(pluginADDFolder);
-                return 0;
             }
-
-            try
-            {
-                Type interfaceType = typeof(DBPlugin);
-                Type[] types = AppDomain.CurrentDomain.GetAssemblies()
-                    .SelectMany(a => a.GetTypes())
-                    .Where(p => interfaceType.IsAssignableFrom(p) && p.IsClass)
-                    .ToArray();
-                foreach (Type type in types)
+            if (loadedPlugins != 0)
+                try
                 {
-                    Plugins.Add((DBPlugin)Activator.CreateInstance(type));
+                    Type interfaceType = typeof(DBPlugin);
+                    Type[] types = AppDomain.CurrentDomain.GetAssemblies()
+                        .SelectMany(a => a.GetTypes())
+                        .Where(p => interfaceType.IsAssignableFrom(p) && p.IsClass)
+                        .ToArray();
+                    foreach (Type type in types)
+                    {
+                        Plugins.Add((DBPlugin)Activator.CreateInstance(type));
+                    }
                 }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-                return 0;
-            }
-
-            try
-            {
-                Type interfaceType2 = typeof(DBAddon);
-                Type[] types2 = AppDomain.CurrentDomain.GetAssemblies()
-                    .SelectMany(a => a.GetTypes())
-                    .Where(p => interfaceType2.IsAssignableFrom(p) && p.IsClass)
-                    .ToArray();
-                foreach (Type type1 in types2)
+                catch (Exception ex)
                 {
-                    Addons.Add((DBAddon)Activator.CreateInstance(type1));
+                    MessageBox.Show(ex.Message);
+                    return 0;
                 }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-                return 0;
-            }
+            if (loadedAddons != 0)
+                try
+                {
+                    Type interfaceType2 = typeof(DBAddon);
+                    Type[] types2 = AppDomain.CurrentDomain.GetAssemblies()
+                        .SelectMany(a => a.GetTypes())
+                        .Where(p => interfaceType2.IsAssignableFrom(p) && p.IsClass)
+                        .ToArray();
+                    foreach (Type type1 in types2)
+                    {
+                        Addons.Add((DBAddon)Activator.CreateInstance(type1));
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                    return 0;
+                }
             return loadedPlugins;
         }
     }

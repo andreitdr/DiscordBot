@@ -3,6 +3,7 @@ using DiscordBot.Online.Patcher;
 
 using DiscordBotPluginManager;
 
+using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -23,8 +24,21 @@ namespace DiscordBot
 
         private void LoadTexts()
         {
-            textBoxToken.Text = readCodeFromFile("DiscordBotCore.data", SearchDirectory.RESOURCES, "BOT_TOKEN", '\t');
-            textBoxPrefix.Text = readCodeFromFile("DiscordBotCore.data", SearchDirectory.RESOURCES, "BOT_PREFIX", '\t');
+            try
+            {
+                textBoxToken.Text = readCodeFromFile("DiscordBotCore.data", SearchDirectory.RESOURCES, "BOT_TOKEN", '\t');
+                textBoxPrefix.Text = readCodeFromFile("DiscordBotCore.data", SearchDirectory.RESOURCES, "BOT_PREFIX", '\t');
+
+                if (textBoxPrefix.Text.Length != 59)
+                    throw new System.Exception("token invalid");
+            }
+            catch
+            {
+                Directory.CreateDirectory(@".\Data\Resources");
+                File.WriteAllText(@".\Data\Resources\DiscordBotCore.data", "BOT_TOKEN\t\"YOUR TOKEN HERE\"\nBOT_PREFIX\t!");
+                MessageBox.Show("Edit file : .\\Data\\Resources\\DiscordBotCore.data. Insert your token (and prefix)", "Discord Bot", MessageBoxButtons.OK);
+                System.Environment.Exit(0);
+            }
         }
 
         private void FormLoaded()
