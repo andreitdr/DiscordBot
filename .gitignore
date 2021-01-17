@@ -1,7 +1,8 @@
 DiscordBot/obj
 DiscordBotPluginManager/obj
 packages
-.vs
+./.vs
 .git
 DiscordBot/bin
 DiscordBotPluginManager/bin
+./.gitignore
