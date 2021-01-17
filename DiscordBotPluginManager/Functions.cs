@@ -17,9 +17,9 @@ namespace DiscordBotPluginManager
         public static string readCodeFromFile(string fileName, SearchDirectory sd, string Code, char separator)
         {
             if (sd == SearchDirectory.RESOURCES)
-                return System.IO.File.ReadAllLines(Path.Combine(dataFolder, fileName)).Where(p => p.StartsWith(Code)).First().Split(separator)[1];
+                return System.IO.File.ReadAllLines(Path.Combine(dataFolder, fileName)).Where(p => p.StartsWith(Code)).First().Split(separator)[1] ?? null;
             else
-                return System.IO.File.ReadAllLines(fileName).Where(p => p.StartsWith(Code)).First().Split(separator)[1];
+                return System.IO.File.ReadAllLines(fileName).Where(p => p.StartsWith(Code)).First().Split(separator)[1] ?? null;
         }
 
         public static string readZipFile(string FileName, string archFile = "DiscordBot.pak", ZipSearchType type = ZipSearchType.ALL_TEXT, string searchPattern = null)
