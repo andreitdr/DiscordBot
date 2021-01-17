@@ -13,6 +13,7 @@ namespace DiscordBot
     public partial class Form1 : Form
     {
         private Boot discordBooter;
+        int x;
 
         public Form1()
         {

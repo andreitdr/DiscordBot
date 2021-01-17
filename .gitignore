@@ -1,0 +1,7 @@
+DiscordBot/obj
+DiscordBotPluginManager/obj
+packages
+.vs
+.git
+DiscordBot/bin
+DiscordBotPluginManager/bin
