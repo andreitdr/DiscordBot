@@ -12,8 +12,8 @@ namespace DiscordBot.Discord.Core
 {
     public class Boot
     {
-        private CommandHandler commandSericeHandler;
-        private DiscordSocketClient client;
+        private CommandHandler commandServiceHandler;
+        public DiscordSocketClient client;
         private CommandService service;
         private string botToken;
         private RichTextBox rtb;
@@ -38,8 +38,8 @@ namespace DiscordBot.Discord.Core
             await client.LoginAsync(TokenType.Bot, botToken);
             await client.StartAsync();
 
-            commandSericeHandler = new CommandHandler(client, service, botPrefix[0]);
-            await commandSericeHandler.InstallCommandsAsync();
+            commandServiceHandler = new CommandHandler(client, service, botPrefix[0]);
+            await commandServiceHandler.InstallCommandsAsync();
 
             await Task.Delay(-1);
         }

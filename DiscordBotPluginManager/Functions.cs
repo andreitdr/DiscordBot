@@ -14,6 +14,7 @@ namespace DiscordBotPluginManager
         private static string logFolder = @".\Output\Logs\";
         private static string errFolder = @".\Output\Errors\";
 
+
         public static string readCodeFromFile(string fileName, SearchDirectory sd, string Code, char separator, char commentMark = '#')
         {
             if (sd == SearchDirectory.RESOURCES)
@@ -26,7 +27,9 @@ namespace DiscordBotPluginManager
                     .First().Split(separator)[1] ?? null;
         }
 
-        public static string readZipFile(string FileName, string archFile = "DiscordBot.pak", ZipSearchType type = ZipSearchType.ALL_TEXT, string searchPattern = null)
+
+        public static string readZipFile(string FileName, string archFile,
+                                        ZipSearchType type = ZipSearchType.ALL_TEXT, string searchPattern = null)
         {
             try
             {
@@ -54,7 +57,7 @@ namespace DiscordBotPluginManager
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Discord Bot Plugin Manager", MessageBoxButtons.YesNo, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, "Discord Bot Plugin Manager", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return null;
             }
         }
