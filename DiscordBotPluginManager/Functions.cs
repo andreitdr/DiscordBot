@@ -14,12 +14,12 @@ namespace DiscordBotPluginManager
         private static string logFolder = @".\Output\Logs\";
         private static string errFolder = @".\Output\Errors\";
 
-        public static string readCodeFromFile(string fileName, SearchDirectory sd, string Code, char separator)
+        public static string readCodeFromFile(string fileName, SearchDirectory sd, string Code, char separator, char commentMark = '#')
         {
             if (sd == SearchDirectory.RESOURCES)
-                return System.IO.File.ReadAllLines(Path.Combine(dataFolder, fileName)).Where(p => p.StartsWith(Code)).First().Split(separator)[1] ?? null;
+                return System.IO.File.ReadAllLines(Path.Combine(dataFolder, fileName)).Where(p => p.StartsWith(Code) && !p.StartsWith(commentMark.ToString())).First().Split(separator)[1] ?? null;
             else
-                return System.IO.File.ReadAllLines(fileName).Where(p => p.StartsWith(Code)).First().Split(separator)[1] ?? null;
+                return System.IO.File.ReadAllLines(fileName).Where(p => p.StartsWith(Code) && !p.StartsWith(commentMark.ToString())).First().Split(separator)[1] ?? null;
         }
 
         public static string readZipFile(string FileName, string archFile = "DiscordBot.pak", ZipSearchType type = ZipSearchType.ALL_TEXT, string searchPattern = null)

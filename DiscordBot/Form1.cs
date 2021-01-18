@@ -31,8 +31,9 @@ namespace DiscordBot
             catch
             {
                 Directory.CreateDirectory(@".\Data\Resources");
-                File.WriteAllText(@".\Data\Resources\DiscordBotCore.data", "BOT_TOKEN\t\"YOUR TOKEN HERE\"\nBOT_PREFIX\t!");
-                MessageBox.Show("Edit file : .\\Data\\Resources\\DiscordBotCore.data. Insert your token (and prefix)", "Discord Bot", MessageBoxButtons.OK);
+                File.WriteAllText(@".\Data\Resources\DiscordBotCore.data", "#Discord bot data\nBOT_TOKEN\t\"YOUR TOKEN HERE\"\nBOT_PREFIX\t!");
+                MessageBox.Show("Edit file : .\\Data\\Resources\\DiscordBotCore.data. Insert your token (and prefix)",
+                                                "Discord Bot", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 System.Environment.Exit(0);
             }
         }
