@@ -1,7 +1,4 @@
-﻿using Discord.Commands;
-using Discord.WebSocket;
-
-namespace DiscordBotPluginManager
+﻿namespace DiscordBotPluginManager
 {
     public interface DBPlugin
     {
@@ -11,6 +8,7 @@ namespace DiscordBotPluginManager
 
         string Usage { get; }
 
-        void Execute(SocketCommandContext context, SocketMessage message, DiscordSocketClient client);
+        void Execute(Discord.Commands.SocketCommandContext context, Discord.WebSocket.SocketMessage message,
+                                            Discord.WebSocket.DiscordSocketClient client);
     }
 }

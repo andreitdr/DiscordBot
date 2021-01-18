@@ -16,13 +16,14 @@ namespace DiscordBotPluginManager
         public static List<DBPlugin> Plugins { get; set; }
         public static List<DBAddon> Addons { get; set; }
 
-        public int LoadPlugins(RichTextBox logs)
+        public int[] LoadPlugins(RichTextBox logs)
         {
             Plugins = new List<DBPlugin>();
             Addons = new List<DBAddon>();
 
             int loadedPlugins = 0;
             int loadedAddons = 0;
+
             if (Directory.Exists(pluginCMDFolder))
             {
                 string[] files = Directory.GetFiles(pluginCMDFolder).Where(p => p.EndsWith(pluginExtension)).ToArray();
@@ -35,9 +36,7 @@ namespace DiscordBotPluginManager
                 }
             }
             else
-            {
                 Directory.CreateDirectory(pluginCMDFolder);
-            }
 
             if (Directory.Exists(pluginADDFolder))
             {
@@ -51,9 +50,8 @@ namespace DiscordBotPluginManager
                 }
             }
             else
-            {
                 Directory.CreateDirectory(pluginADDFolder);
-            }
+
             if (loadedPlugins != 0)
                 try
                 {
@@ -70,27 +68,29 @@ namespace DiscordBotPluginManager
                 catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message);
-                    return 0;
+                    return new int[2] { loadedPlugins, loadedAddons };
                 }
+
             if (loadedAddons != 0)
                 try
                 {
-                    Type interfaceType2 = typeof(DBAddon);
-                    Type[] types2 = AppDomain.CurrentDomain.GetAssemblies()
+                    Type interfaceType = typeof(DBAddon);
+                    Type[] types = AppDomain.CurrentDomain.GetAssemblies()
                         .SelectMany(a => a.GetTypes())
-                        .Where(p => interfaceType2.IsAssignableFrom(p) && p.IsClass)
+                        .Where(p => interfaceType.IsAssignableFrom(p) && p.IsClass)
                         .ToArray();
-                    foreach (Type type1 in types2)
+                    foreach (Type type in types)
                     {
-                        Addons.Add((DBAddon)Activator.CreateInstance(type1));
+                        Addons.Add((DBAddon)Activator.CreateInstance(type));
                     }
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message);
-                    return 0;
+                    return new int[2] { loadedPlugins, loadedAddons };
                 }
-            return loadedPlugins;
+
+            return new int[2] { loadedPlugins, loadedAddons };
         }
     }
 }

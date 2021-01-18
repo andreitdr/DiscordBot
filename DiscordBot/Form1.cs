@@ -33,14 +33,13 @@ namespace DiscordBot
                 Directory.CreateDirectory(@".\Data\Resources");
                 File.WriteAllText(@".\Data\Resources\DiscordBotCore.data", "#Discord bot data\nBOT_TOKEN\t\"YOUR TOKEN HERE\"\nBOT_PREFIX\t!");
                 MessageBox.Show("Edit file : .\\Data\\Resources\\DiscordBotCore.data. Insert your token (and prefix)",
-                                                "Discord Bot", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                            "Discord Bot", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 System.Environment.Exit(0);
             }
         }
 
         private void FormLoaded()
         {
-
             buttonCopyToken.Click += (sender, e) =>
             {
                 Clipboard.SetText(textBoxToken.Text);
@@ -72,10 +71,15 @@ namespace DiscordBot
                 else
                 {
                     PluginLoader loader = new PluginLoader();
-                    int plgs = loader.LoadPlugins(richTextBox1);
-                    if (plgs != 1)
-                        labelFailedLoadPlugin.Text = "Loaded " + plgs.ToString() + " plugins !";
+                    var plgs = loader.LoadPlugins(richTextBox1);
+                    if (plgs[0] != 1)
+                        labelFailedLoadPlugin.Text = "Loaded " + plgs[0].ToString() + " plugins !";
                     else labelFailedLoadPlugin.Text = "Loaded 1 plugin !";
+
+                    if (plgs[1] != 1)
+                        labelFailedLoadPlugin.Text = "Loaded " + plgs[1].ToString() + " addons !";
+                    else labelFailedLoadPlugin.Text = "Loaded 1 addon !";
+
                     labelFailedLoadPlugin.Visible = true;
 
                     foreach (var v in PluginLoader.Addons)

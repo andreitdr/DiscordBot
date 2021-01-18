@@ -17,9 +17,13 @@ namespace DiscordBotPluginManager
         public static string readCodeFromFile(string fileName, SearchDirectory sd, string Code, char separator, char commentMark = '#')
         {
             if (sd == SearchDirectory.RESOURCES)
-                return System.IO.File.ReadAllLines(Path.Combine(dataFolder, fileName)).Where(p => p.StartsWith(Code) && !p.StartsWith(commentMark.ToString())).First().Split(separator)[1] ?? null;
+                return File.ReadAllLines(Path.Combine(dataFolder, fileName))
+                    .Where(p => p.StartsWith(Code) && !p.StartsWith(commentMark.ToString()))
+                    .First().Split(separator)[1] ?? null;
             else
-                return System.IO.File.ReadAllLines(fileName).Where(p => p.StartsWith(Code) && !p.StartsWith(commentMark.ToString())).First().Split(separator)[1] ?? null;
+                return File.ReadAllLines(fileName)
+                    .Where(p => p.StartsWith(Code) && !p.StartsWith(commentMark.ToString()))
+                    .First().Split(separator)[1] ?? null;
         }
 
         public static string readZipFile(string FileName, string archFile = "DiscordBot.pak", ZipSearchType type = ZipSearchType.ALL_TEXT, string searchPattern = null)
@@ -50,33 +54,28 @@ namespace DiscordBotPluginManager
             }
             catch (Exception ex)
             {
-                string message = ex.Message;
-                MessageBox.Show(message);
+                MessageBox.Show(ex.Message, "Discord Bot Plugin Manager", MessageBoxButtons.YesNo, MessageBoxIcon.Error);
                 return null;
             }
         }
 
-        public static SocketVoiceChannel GetVoiceChannel(SocketGuildUser user)
-        {
-            return user.VoiceChannel;
-        }
+        public static SocketVoiceChannel GetVoiceChannel(SocketGuildUser user) => user.VoiceChannel;
 
-        public static async void ConnectToChannel(SocketVoiceChannel channel)
-        {
-            await channel.ConnectAsync();
-        }
+        public static async void ConnectToChannel(SocketVoiceChannel channel) => await channel.ConnectAsync();
 
         public static void WriteLogFile(string LogMessage)
         {
             string logsPath = Path.Combine(logFolder, "Log.txt");
-            if (!Directory.Exists(logFolder)) Directory.CreateDirectory(logFolder);
+            if (!Directory.Exists(logFolder))
+                Directory.CreateDirectory(logFolder);
             File.AppendAllText(logsPath, LogMessage + " \n");
         }
 
         public static void WriteErrFile(string ErrMessage)
         {
             string errPath = Path.Combine(errFolder, "Error.txt");
-            if (!Directory.Exists(errFolder)) Directory.CreateDirectory(errFolder);
+            if (!Directory.Exists(errFolder))
+                Directory.CreateDirectory(errFolder);
             File.AppendAllText(errPath, ErrMessage + " \n");
         }
     }
