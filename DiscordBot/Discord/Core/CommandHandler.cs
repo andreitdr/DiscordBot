@@ -15,10 +15,10 @@ namespace DiscordBot.Discord.Core
         private readonly CommandService commandService;
         private readonly char botPrefix;
 
-        public CommandHandler(DiscordSocketClient client, CommandService service, char botPrefix)
+        public CommandHandler(DiscordSocketClient client, CommandService commandService, char botPrefix)
         {
             this.client = client;
-            this.commandService = service;
+            this.commandService = commandService;
             this.botPrefix = botPrefix;
         }
 
@@ -28,26 +28,31 @@ namespace DiscordBot.Discord.Core
             await commandService.AddModulesAsync(assembly: Assembly.GetEntryAssembly(), services: null);
         }
 
-        private async Task MessageHandler(SocketMessage message)
+        private async Task MessageHandler(SocketMessage Message)
         {
-            if (message as SocketUserMessage == null)
+            if (Message as SocketUserMessage == null)
                 return;
+
+            var message = Message as SocketUserMessage;
 
             int argPos = 0;
-            if (!((message as SocketUserMessage).HasCharPrefix(botPrefix, ref argPos) ||
-                  (message as SocketUserMessage).HasMentionPrefix(client.CurrentUser, ref argPos) ||
-                  (message as SocketUserMessage).Author.IsBot))
+
+            if (message.HasMentionPrefix(client.CurrentUser, ref argPos))
+            {
+                await message.Channel.SendMessageAsync("Can not exec mentioned commands !");
+                return;
+            }
+
+            if (!(message.HasCharPrefix(botPrefix, ref argPos) || message.Author.IsBot))
                 return;
 
-            var context = new SocketCommandContext(client, message as SocketUserMessage);
+            var context = new SocketCommandContext(client, message);
 
-            await commandService.ExecuteAsync(
-                context: context,
-                argPos: argPos,
-                services: null
-            );
+            await commandService.ExecuteAsync(context, argPos, null);
 
-            DBPlugin plugin = PluginLoader.Plugins.Where(p => p.Command == (message.Content.Split(' ')[0]).Substring(1)).FirstOrDefault();
+            DBPlugin plugin = PluginLoader.Plugins
+                .Where(p => p.Command == (message.Content.Split(' ')[0]).Substring(1))
+                .FirstOrDefault();
             if (plugin != null)
                 plugin.Execute(context, message, client);
         }

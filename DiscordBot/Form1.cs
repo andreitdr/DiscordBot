@@ -40,14 +40,13 @@ namespace DiscordBot
 
         private void FormLoaded()
         {
-            buttonCopyToken.Click += (sender, e) =>
+            buttonCopyToken.Click += async (sender, e) =>
             {
+                if (labelClipboardCopy.Visible)
+                    return;
                 Clipboard.SetText(textBoxToken.Text);
                 labelClipboardCopy.Visible = true;
-                Task.Run(async () =>
-                {
-                    await Task.Delay(2000);
-                }).Wait();
+                await Task.Delay(2000);
                 labelClipboardCopy.Visible = false;
             };
 
@@ -55,7 +54,8 @@ namespace DiscordBot
             {
                 if (discordBooter != null)
                     return;
-                discordBooter = new Boot(textBoxToken.Text, textBoxPrefix.Text, richTextBox1, labelConnectionStatus);
+                discordBooter = new Boot(textBoxToken.Text, textBoxPrefix.Text,
+                    richTextBox1, labelConnectionStatus);
                 await discordBooter.Awake();
             };
 
@@ -63,6 +63,7 @@ namespace DiscordBot
             {
                 if (labelConnectionStatus.Text != "ONLINE")
                 {
+                    if (labelFailedLoadPlugin.Visible) return;
                     labelFailedLoadPlugin.Visible = true;
                     await Task.Delay(2000);
                     labelFailedLoadPlugin.Visible = false;
@@ -72,22 +73,22 @@ namespace DiscordBot
                 {
                     PluginLoader loader = new PluginLoader();
                     var plgs = loader.LoadPlugins(richTextBox1);
-                    if (plgs[0] != 1)
-                        labelFailedLoadPlugin.Text = "Loaded " + plgs[0].ToString() + " plugins !";
-                    else labelFailedLoadPlugin.Text = "Loaded 1 plugin !";
+                    buttonManagePlugins.Click += (Sender, arg) =>
+                    {
+                        Task.Run(async () =>
+                        {
+                            new DiscordBotPluginManager.Plugins.Plugins_Manager(plgs, discordBooter.client).ShowDialog();
+                        });
 
-                    if (plgs[1] != 1)
-                        labelFailedLoadPlugin.Text = "Loaded " + plgs[1].ToString() + " addons !";
-                    else labelFailedLoadPlugin.Text = "Loaded 1 addon !";
-
-                    labelFailedLoadPlugin.Visible = true;
-
+                    };
                     foreach (var v in PluginLoader.Addons)
                     {
                         v.Execute(this);
                     }
                 }
             };
+
+
         }
     }
 }

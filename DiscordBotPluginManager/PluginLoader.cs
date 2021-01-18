@@ -13,16 +13,29 @@ namespace DiscordBotPluginManager
         private const string pluginADDFolder = @".\Data\Plugins\Addons\";
         private const string pluginExtension = ".dll";
 
+        public struct LoadReport
+        {
+            public int loadedAddons;
+            public int loadedCommands;
+
+            public string[] loadedAddonsS;
+            public string[] loadedCommandsS;
+        };
+
         public static List<DBPlugin> Plugins { get; set; }
         public static List<DBAddon> Addons { get; set; }
 
-        public int[] LoadPlugins(RichTextBox logs)
+        public LoadReport LoadPlugins(RichTextBox logs)
         {
             Plugins = new List<DBPlugin>();
             Addons = new List<DBAddon>();
 
-            int loadedPlugins = 0;
-            int loadedAddons = 0;
+
+            LoadReport r = new LoadReport()
+            {
+                loadedAddons = 0,
+                loadedCommands = 0
+            };
 
             if (Directory.Exists(pluginCMDFolder))
             {
@@ -31,9 +44,14 @@ namespace DiscordBotPluginManager
                 {
                     Assembly.LoadFile(Path.GetFullPath(file));
 
-                    logs.Invoke(new MethodInvoker(delegate () { logs.AppendText("[PLUGIN/CMD] " + file.Split('\\')[file.Split('\\').Length - 1] + " has been loaded !\n"); }));
-                    loadedPlugins++;
+                    logs.Invoke(new MethodInvoker(delegate ()
+                    {
+                        logs.AppendText("[PLUGIN/CMD] " + file.Split('\\')[file.Split('\\').Length - 1] + " has been loaded !\n");
+                    }));
+
                 }
+                r.loadedCommands = files.Length;
+                r.loadedCommandsS = files;
             }
             else
                 Directory.CreateDirectory(pluginCMDFolder);
@@ -45,52 +63,53 @@ namespace DiscordBotPluginManager
                 {
                     Assembly.LoadFile(Path.GetFullPath(file));
 
-                    logs.Invoke(new MethodInvoker(delegate () { logs.AppendText("[PLUGIN/ADDON] " + file.Split('\\')[file.Split('\\').Length - 1] + " has been loaded !\n"); }));
-                    loadedAddons++;
+                    logs.Invoke(new MethodInvoker(delegate ()
+                    {
+                        logs.AppendText("[PLUGIN/ADDON] " + file.Split('\\')[file.Split('\\').Length - 1] + " has been loaded !\n");
+                    }));
                 }
+
+                r.loadedAddons = files.Length;
+                r.loadedAddonsS = files;
             }
             else
                 Directory.CreateDirectory(pluginADDFolder);
 
-            if (loadedPlugins != 0)
-                try
+            try
+            {
+                Type interfaceType = typeof(DBPlugin);
+                Type[] types = AppDomain.CurrentDomain.GetAssemblies()
+                    .SelectMany(a => a.GetTypes())
+                    .Where(p => interfaceType.IsAssignableFrom(p) && p.IsClass)
+                    .ToArray();
+                foreach (Type type in types)
                 {
-                    Type interfaceType = typeof(DBPlugin);
-                    Type[] types = AppDomain.CurrentDomain.GetAssemblies()
-                        .SelectMany(a => a.GetTypes())
-                        .Where(p => interfaceType.IsAssignableFrom(p) && p.IsClass)
-                        .ToArray();
-                    foreach (Type type in types)
-                    {
-                        Plugins.Add((DBPlugin)Activator.CreateInstance(type));
-                    }
+                    Plugins.Add((DBPlugin)Activator.CreateInstance(type));
                 }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message);
-                    return new int[2] { loadedPlugins, loadedAddons };
-                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
 
-            if (loadedAddons != 0)
-                try
+            try
+            {
+                Type interfaceType = typeof(DBAddon);
+                Type[] types = AppDomain.CurrentDomain.GetAssemblies()
+                    .SelectMany(a => a.GetTypes())
+                    .Where(p => interfaceType.IsAssignableFrom(p) && p.IsClass)
+                    .ToArray();
+                foreach (Type type in types)
                 {
-                    Type interfaceType = typeof(DBAddon);
-                    Type[] types = AppDomain.CurrentDomain.GetAssemblies()
-                        .SelectMany(a => a.GetTypes())
-                        .Where(p => interfaceType.IsAssignableFrom(p) && p.IsClass)
-                        .ToArray();
-                    foreach (Type type in types)
-                    {
-                        Addons.Add((DBAddon)Activator.CreateInstance(type));
-                    }
+                    Addons.Add((DBAddon)Activator.CreateInstance(type));
                 }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message);
-                    return new int[2] { loadedPlugins, loadedAddons };
-                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
 
-            return new int[2] { loadedPlugins, loadedAddons };
+            return r;
         }
     }
 }

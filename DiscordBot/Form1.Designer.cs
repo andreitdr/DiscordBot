@@ -41,12 +41,14 @@
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.labelConnectionStatus = new System.Windows.Forms.Label();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
+            this.buttonManagePlugins = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
             // 
             this.groupBox1.AutoSize = true;
+            this.groupBox1.Controls.Add(this.buttonManagePlugins);
             this.groupBox1.Controls.Add(this.labelFailedLoadPlugin);
             this.groupBox1.Controls.Add(this.buttonReloadPlugins);
             this.groupBox1.Controls.Add(this.labelClipboardCopy);
@@ -58,7 +60,7 @@
             this.groupBox1.ForeColor = System.Drawing.SystemColors.ControlText;
             this.groupBox1.Location = new System.Drawing.Point(282, 80);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(319, 227);
+            this.groupBox1.Size = new System.Drawing.Size(319, 238);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Bot Information";
@@ -77,7 +79,7 @@
             // buttonReloadPlugins
             // 
             this.buttonReloadPlugins.AutoSize = true;
-            this.buttonReloadPlugins.Location = new System.Drawing.Point(127, 160);
+            this.buttonReloadPlugins.Location = new System.Drawing.Point(65, 151);
             this.buttonReloadPlugins.Name = "buttonReloadPlugins";
             this.buttonReloadPlugins.Size = new System.Drawing.Size(88, 23);
             this.buttonReloadPlugins.TabIndex = 4;
@@ -144,7 +146,7 @@
             // 
             // buttonStartBot
             // 
-            this.buttonStartBot.Location = new System.Drawing.Point(377, 342);
+            this.buttonStartBot.Location = new System.Drawing.Point(409, 333);
             this.buttonStartBot.Name = "buttonStartBot";
             this.buttonStartBot.Size = new System.Drawing.Size(75, 23);
             this.buttonStartBot.TabIndex = 1;
@@ -178,11 +180,21 @@
             this.progressBar1.TabIndex = 4;
             this.progressBar1.Visible = false;
             // 
+            // buttonManagePlugins
+            // 
+            this.buttonManagePlugins.AutoSize = true;
+            this.buttonManagePlugins.Location = new System.Drawing.Point(184, 151);
+            this.buttonManagePlugins.Name = "buttonManagePlugins";
+            this.buttonManagePlugins.Size = new System.Drawing.Size(93, 23);
+            this.buttonManagePlugins.TabIndex = 7;
+            this.buttonManagePlugins.Text = "Manage Plugins";
+            this.buttonManagePlugins.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(625, 438);
+            this.ClientSize = new System.Drawing.Size(636, 438);
             this.Controls.Add(this.progressBar1);
             this.Controls.Add(this.labelConnectionStatus);
             this.Controls.Add(this.richTextBox1);
@@ -212,6 +224,7 @@
         private System.Windows.Forms.Button buttonReloadPlugins;
         private System.Windows.Forms.Label labelFailedLoadPlugin;
         private System.Windows.Forms.ProgressBar progressBar1;
+        private System.Windows.Forms.Button buttonManagePlugins;
     }
 }
 
