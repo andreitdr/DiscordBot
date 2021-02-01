@@ -6,6 +6,7 @@ using DiscordBotPluginManager;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace DiscordBot.Discord.Core
 {
@@ -48,13 +49,19 @@ namespace DiscordBot.Discord.Core
 
             var context = new SocketCommandContext(client, message);
 
-            await commandService.ExecuteAsync(context, argPos, null);
+            await commandService.ExecuteAsync(
+                context: context,
+                argPos: argPos,
+                services: null
+            );
 
-            DBPlugin plugin = PluginLoader.Plugins
-                .Where(p => p.Command == (message.Content.Split(' ')[0]).Substring(1))
-                .FirstOrDefault();
+            DBPlugin plugin = PluginLoader.Plugins.Where(p => p.Command == (message.Content.Split(' ')[0]).Substring(1)).FirstOrDefault();
+
             if (plugin != null)
+            {
                 plugin.Execute(context, message, client);
+                Functions.WriteLogFile("Executed command : " + plugin.Command);
+            }
         }
     }
 }

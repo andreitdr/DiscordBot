@@ -3,7 +3,7 @@ using Discord.WebSocket;
 
 namespace DiscordBotPluginManager
 {
-    public class Help : ModuleBase<SocketCommandContext>, DBPlugin
+    public class Help : DBPlugin
     {
         public string Command => "help";
 
