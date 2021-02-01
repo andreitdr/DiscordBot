@@ -84,8 +84,7 @@ namespace DiscordBot
                     {
                         buttonManagePlugins.Click += (Sender, arg) =>
                           {
-                              buttonManagePlugins.Enabled = false;
-                              Task t = Task.Run(async () =>
+                             Task.Run(async () =>
                                   new Plugins_Manager(plgs, discordBooter.client).ShowDialog());
 
                           };

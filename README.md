@@ -28,7 +28,7 @@ namespace Master_Plugin.Commands.User
                 // Generate the random value
                 System.Random r = new System.Random();
           
-                await context.Channel.SendMessageAsync("Your random generated value is : " + r.Next(value1, value2));
+                await context.Channel.SendMessageAsync("Your random generated value is : " + r.Next());
             }
             catch (System.Exception ex)
             {
@@ -40,9 +40,4 @@ namespace Master_Plugin.Commands.User
         }
     }
 }
-```
-
-Model for Addon
-```cs
-//soon
 ```
