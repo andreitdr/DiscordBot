@@ -1,4 +1,6 @@
-﻿using DiscordBot.Discord.Core;
+﻿using Discord.WebSocket;
+
+using DiscordBot.Discord.Core;
 
 using DiscordBotPluginManager;
 
