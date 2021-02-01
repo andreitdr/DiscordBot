@@ -41,3 +41,8 @@ namespace Master_Plugin.Commands.User
     }
 }
 ```
+
+Model for Addon
+```cs
+//soon
+```
