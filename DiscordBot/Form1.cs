@@ -3,8 +3,12 @@
 using DiscordBot.Discord.Core;
 
 using DiscordBotPluginManager;
+using DiscordBotPluginManager.Plugins;
 
+using System;
+using System.ComponentModel;
 using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -15,6 +19,7 @@ namespace DiscordBot
     public partial class Form1 : Form
     {
         private Boot discordBooter;
+        private bool initClickMethod;
 
         public Form1()
         {
@@ -75,20 +80,24 @@ namespace DiscordBot
                 {
                     PluginLoader loader = new PluginLoader();
                     var plgs = loader.LoadPlugins(richTextBox1);
-                    buttonManagePlugins.Click += (Sender, arg) =>
+                    if (!initClickMethod)
                     {
-                        Task.Run(async () =>
-                        {
-                            new DiscordBotPluginManager.Plugins.Plugins_Manager(plgs, discordBooter.client).ShowDialog();
-                        });
+                        buttonManagePlugins.Click += (Sender, arg) =>
+                          {
+                              buttonManagePlugins.Enabled = false;
+                              Task t = Task.Run(async () =>
+                                  new Plugins_Manager(plgs, discordBooter.client).ShowDialog());
 
-                    };
+                          };
+                        initClickMethod = true;
+                    }
                     foreach (var v in PluginLoader.Addons)
                     {
                         v.Execute(this);
                     }
                 }
             };
+
 
 
         }

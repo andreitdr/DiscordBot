@@ -1,6 +1,7 @@
 ﻿
 using Discord.WebSocket;
 
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Runtime.Remoting.Channels;
@@ -26,7 +27,8 @@ namespace DiscordBotPluginManager.Plugins
 
             foreach (var file in files)
             {
-                dataGridAddons.Rows.Add(k, file, PluginLoader.Addons.GetRange(k, 1).First().Description, true);
+                var FName = new FileInfo(file).Name;
+                dataGridAddons.Rows.Add(k, FName, PluginLoader.Addons.GetRange(k, 1).First().Description, true);
                 k++;
             }
         }
@@ -37,7 +39,8 @@ namespace DiscordBotPluginManager.Plugins
 
             foreach (var file in files)
             {
-                dataGridCommands.Rows.Add(k, file, PluginLoader.Plugins.GetRange(k, 1).First().Description, true);
+                var FName = new FileInfo(file).Name;
+                dataGridCommands.Rows.Add(k, FName, PluginLoader.Plugins.GetRange(k, 1).First().Description, true);
                 k++;
             }
         }
