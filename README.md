@@ -1,9 +1,11 @@
 # DiscordBot
 
-Model for plugin:
 ```diff
- - Make sure to use the 2.3.0 Discord .NET version !
+ - Make sure to use that latest version of Discord .NET
 ```
+
+Model for plugin:
+
 ```cs
 namespace Master_Plugin.Commands.User
 {
