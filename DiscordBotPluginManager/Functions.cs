@@ -1,9 +1,11 @@
 ﻿using Discord.WebSocket;
 
 using System;
+using System.Drawing;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
+using System.Runtime;
 using System.Windows.Forms;
 
 namespace DiscordBotPluginManager
@@ -26,8 +28,6 @@ namespace DiscordBotPluginManager
                     .Where(p => p.StartsWith(Code) && !p.StartsWith(commentMark.ToString()))
                     .First().Split(separator)[1] ?? null;
         }
-
-
         public static string readZipFile(string FileName, string archFile,
                                         ZipSearchType type = ZipSearchType.ALL_TEXT, string searchPattern = null)
         {
@@ -49,7 +49,6 @@ namespace DiscordBotPluginManager
                             if (searchPattern == null) throw new Exception("SearchPattern is invalid");
                             string r = fileData.Split('\n').Where(data => data.Split('\t')[0].Equals(searchPattern)).FirstOrDefault().Split('\t')[1] ?? null;
                             return r.Remove(r.Length - 1);
-
                         default:
                             throw new Exception("Unknown ZipSearchType");
                     }
@@ -60,6 +59,31 @@ namespace DiscordBotPluginManager
                 MessageBox.Show(ex.Message, "Discord Bot Plugin Manager", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return null;
             }
+        }
+
+        public static Image ReadImage(string FileName, string archFile)
+        {
+            archFile = Path.Combine(dataFolder, archFile);
+            using (FileStream s = new FileStream(archFile, FileMode.Open))
+            {
+                ZipArchive zip = new ZipArchive(s, ZipArchiveMode.Read);
+
+                foreach (var entry in zip.Entries)
+                {
+                    if (entry.FullName == FileName || entry.Name == FileName)
+                    {
+                        Stream stream = entry.Open();
+                        {
+                            Image i = Image.FromStream(stream);
+                            stream.Close();
+                            return i;
+                        }
+                    }
+                }
+            }
+
+
+            return null;
         }
 
         public static SocketVoiceChannel GetVoiceChannel(SocketGuildUser user) => user.VoiceChannel;

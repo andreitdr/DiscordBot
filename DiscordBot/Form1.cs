@@ -84,8 +84,8 @@ namespace DiscordBot
                     {
                         buttonManagePlugins.Click += (Sender, arg) =>
                           {
-                             Task.Run(async () =>
-                                  new Plugins_Manager(plgs, discordBooter.client).ShowDialog());
+                              Task.Run(async () =>
+                                   new Plugins_Manager(plgs, discordBooter.client).ShowDialog());
 
                           };
                         initClickMethod = true;
@@ -94,6 +94,8 @@ namespace DiscordBot
                     {
                         v.Execute(this);
                     }
+
+                    buttonReloadPlugins.Enabled = false;
                 }
             };
 
