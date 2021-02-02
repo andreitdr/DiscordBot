@@ -15,9 +15,12 @@ namespace DiscordBotPluginManager.Plugins
 {
     public partial class Plugins_Manager : Form
     {
-        public Plugins_Manager(LoadReport loadReport, DiscordSocketClient discordClient)
+        public Plugins_Manager(LoadReport loadReport, DiscordSocketClient discordClient,
+                                System.Drawing.Color c1, System.Drawing.Color c2
+        )
         {
             InitializeComponent();
+            SetTheme(this, c1, c2);
             Load += (sender, e) => LoadForm(loadReport, discordClient);
 
         }
@@ -60,6 +63,14 @@ namespace DiscordBotPluginManager.Plugins
 
             Text = "Entry Latency : " + client.Latency;
 
+        }
+
+        public static void SetTheme(Control form, System.Drawing.Color ForeColor, System.Drawing.Color BackColor)
+        {
+            form.BackColor = BackColor;
+            form.ForeColor = ForeColor;
+            foreach (Control control in form.Controls)
+                SetTheme(control, ForeColor, BackColor);
         }
     }
 }

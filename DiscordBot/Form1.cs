@@ -85,7 +85,7 @@ namespace DiscordBot
                         buttonManagePlugins.Click += (Sender, arg) =>
                           {
                               Task.Run(async () =>
-                                   new Plugins_Manager(plgs, discordBooter.client).ShowDialog());
+                                   new Plugins_Manager(plgs, discordBooter.client, this.ForeColor, this.BackColor).ShowDialog());
 
                           };
                         initClickMethod = true;
