@@ -28,7 +28,8 @@ namespace DiscordBotPluginManager.Plugins
             foreach (var file in files)
             {
                 var FName = new FileInfo(file).Name;
-                dataGridAddons.Rows.Add(k, FName, PluginLoader.Addons.GetRange(k, 1).First().Description, true);
+                var d = PluginLoader.Addons.GetRange(k - 1, 1).First().Description;
+                dataGridAddons.Rows.Add(k, FName, d ?? "Unknown Description", true);
                 k++;
             }
         }
@@ -40,7 +41,8 @@ namespace DiscordBotPluginManager.Plugins
             foreach (var file in files)
             {
                 var FName = new FileInfo(file).Name;
-                dataGridCommands.Rows.Add(k, FName, PluginLoader.Plugins.GetRange(k, 1).First().Description, true);
+                var d = PluginLoader.Plugins.GetRange(k, 1).First().Description;
+                dataGridCommands.Rows.Add(k, FName, d ?? "Unknown Description", true);
                 k++;
             }
         }
