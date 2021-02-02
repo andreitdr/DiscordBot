@@ -1,6 +1,9 @@
 # DiscordBot
 
 Model for plugin:
+```diff
+ - Make sure to use the 2.3.0 Discord .NET version !
+```
 ```cs
 namespace Master_Plugin.Commands.User
 {
@@ -37,6 +40,53 @@ namespace Master_Plugin.Commands.User
 
                 DiscordBotPluginManager.Functions.WriteErrFile(ex.Message);
             }
+        }
+    }
+}
+```
+
+
+Model for Addon:
+
+```cs
+using System.Drawing;
+using System.IO;
+using System.Linq;
+using System.Windows.Forms;
+
+namespace AdminPanel_Addon
+{
+    public class Main : DiscordBotPluginManager.DBAddon
+    {
+        //Addon Name
+        public string Name => "Admin Panel";
+
+        //Addon Description
+        public string Description => "Admin Panel by Wizzy";
+
+        //Main body
+        public int Execute(Form formToChange)
+        {
+            var menuStrip = formToChange.Controls.OfType<MenuStrip>().FirstOrDefault();
+
+            if (menuStrip == null)
+            {
+                menuStrip = new MenuStrip();
+                formToChange.Controls.Add(menuStrip);
+            }
+
+            string zipPath = Path.Combine(".\\AdminPanel", "AdminPanel.pkg");
+            
+            // ReadImage is a function that returns an image from a zip package
+            Image image = DiscordBotPluginManager.Functions.ReadImage("AdminPanel/Images/menuStrip/defaultIcon.png", zipPath);
+            var item = menuStrip.Items.Add("Admin Plugin", image) as ToolStripMenuItem;
+            item.DropDownItems.Add("Send Message", null, (Sender, e) =>
+             {
+                 //You can add forms and more on your Addon
+                 new Forms.Admin().ShowDialog();
+             });
+
+            return 0;
         }
     }
 }
