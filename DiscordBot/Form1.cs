@@ -85,6 +85,16 @@ namespace DiscordBot
                         else
                             richTextBox1.AppendText("Addon " + name + " failed to load. Reason: " + exception.Message);
                     };
+
+                    buttonManagePlugins.Click += (o, args) =>
+                    {
+                        buttonManagePlugins.Enabled = false;
+                        new Plugins_Manager(discordBooter.client, ForeColor,BackColor).ShowDialog();
+                        buttonManagePlugins.Enabled = true;
+                    };
+                    loader.LoadPlugins();
+                    
+                    
                     buttonReloadPlugins.Enabled =  false;
                 }
             };
