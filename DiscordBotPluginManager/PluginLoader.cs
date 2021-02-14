@@ -9,107 +9,49 @@ namespace DiscordBotPluginManager
 {
     public class PluginLoader
     {
-        private const string pluginCMDFolder = @".\Data\Plugins\Commands\";
-        private const string pluginADDFolder = @".\Data\Plugins\Addons\";
-        private const string pluginExtension = ".dll";
-
-        public struct LoadReport
-        {
-            public int loadedAddons;
-            public int loadedCommands;
-
-            public string[] loadedAddonsS;
-            public string[] loadedCommandsS;
-        };
-
+        private const string         pluginCMDFolder    = @".\Data\Plugins\Commands\";
+        private const string         pluginADDFolder    = @".\Data\Plugins\Addons\";
+        private const string         pluginCMDExtension = ".dll";
+        private const string         pluginADDExtension = ".dll";
         public static List<DBPlugin> Plugins { get; set; }
-        public static List<DBAddon> Addons { get; set; }
+        public static List<DBAddon>  Addons  { get; set; }
 
-        public LoadReport LoadPlugins(RichTextBox logs)
+        public delegate void CMDLoaded(string name, bool success, Exception e = null);
+
+        public delegate void ADDLoaded(string name, bool success, Exception e = null);
+
+        public CMDLoaded onCMDLoad;
+        public ADDLoaded onADDLoad;
+
+        public void LoadPlugins()
         {
             Plugins = new List<DBPlugin>();
-            Addons = new List<DBAddon>();
+            Addons  = new List<DBAddon>();
 
+            //Load commands
+            CommandsLoader CMDLoader = new CommandsLoader(pluginCMDFolder, pluginCMDExtension);
+            CMDLoader.OnCommandLoaded += OnCommandLoaded;
+            Plugins                   =  CMDLoader.LoadCommands();
 
-            LoadReport r = new LoadReport()
-            {
-                loadedAddons = 0,
-                loadedCommands = 0
-            };
+            //Load addons
+            AddonsLoader ADDLoader = new AddonsLoader(pluginADDFolder, pluginADDExtension);
+            ADDLoader.OnAddonLoaded += OnAddonLoaded;
+            Addons                  =  ADDLoader.LoadAddons();
+        }
 
-            if (Directory.Exists(pluginCMDFolder))
-            {
-                string[] files = Directory.GetFiles(pluginCMDFolder).Where(p => p.EndsWith(pluginExtension)).ToArray();
-                foreach (string file in files)
-                {
-                    Assembly.LoadFile(Path.GetFullPath(file));
+        private void OnAddonLoaded(string typename, bool success, DBAddon addon, Exception exception)
+        {
+            if (addon != null && success)
+                addon.Execute(Form.ActiveForm);
+            if(onADDLoad != null)
+                onADDLoad.Invoke(typename,success,exception);
+            
+        }
 
-                    logs.Invoke(new MethodInvoker(delegate ()
-                    {
-                        logs.AppendText("[PLUGIN/CMD] " + file.Split('\\')[file.Split('\\').Length - 1] + " has been loaded !\n");
-                    }));
-
-                }
-                r.loadedCommands = files.Length;
-                r.loadedCommandsS = files;
-            }
-            else
-                Directory.CreateDirectory(pluginCMDFolder);
-
-            if (Directory.Exists(pluginADDFolder))
-            {
-                string[] files = Directory.GetFiles(pluginADDFolder).Where(p => p.EndsWith(pluginExtension)).ToArray();
-                foreach (string file in files)
-                {
-                    Assembly.LoadFile(Path.GetFullPath(file));
-
-                    logs.Invoke(new MethodInvoker(delegate ()
-                    {
-                        logs.AppendText("[PLUGIN/ADDON] " + file.Split('\\')[file.Split('\\').Length - 1] + " has been loaded !\n");
-                    }));
-                }
-
-                r.loadedAddons = files.Length;
-                r.loadedAddonsS = files;
-            }
-            else
-                Directory.CreateDirectory(pluginADDFolder);
-
-            try
-            {
-                Type interfaceType = typeof(DBPlugin);
-                Type[] types = AppDomain.CurrentDomain.GetAssemblies()
-                    .SelectMany(a => a.GetTypes())
-                    .Where(p => interfaceType.IsAssignableFrom(p) && p.IsClass)
-                    .ToArray();
-                foreach (Type type in types)
-                {
-                    Plugins.Add((DBPlugin)Activator.CreateInstance(type));
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-
-            try
-            {
-                Type interfaceType = typeof(DBAddon);
-                Type[] types = AppDomain.CurrentDomain.GetAssemblies()
-                    .SelectMany(a => a.GetTypes())
-                    .Where(p => interfaceType.IsAssignableFrom(p) && p.IsClass)
-                    .ToArray();
-                foreach (Type type in types)
-                {
-                    Addons.Add((DBAddon)Activator.CreateInstance(type));
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-
-            return r;
+        private void OnCommandLoaded(string name, bool success,DBPlugin command, Exception exception)
+        {
+            if(onCMDLoad != null)
+                onCMDLoad.Invoke(name,success,exception);
         }
     }
 }

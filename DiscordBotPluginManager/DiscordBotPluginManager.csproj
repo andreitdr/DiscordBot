@@ -80,6 +80,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AddonsLoader.cs" />
+    <Compile Include="CommandsLoader.cs" />
     <Compile Include="DBAddon.cs" />
     <Compile Include="Enums.cs" />
     <Compile Include="Functions.cs" />

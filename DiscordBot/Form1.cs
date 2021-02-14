@@ -1,17 +1,10 @@
-﻿using Discord.WebSocket;
-
-using DiscordBot.Discord.Core;
-
-using DiscordBotPluginManager;
-using DiscordBotPluginManager.Plugins;
-
-using System;
-using System.ComponentModel;
+﻿using System;
 using System.IO;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
+using DiscordBot.Discord.Core;
+using DiscordBotPluginManager;
+using DiscordBotPluginManager.Plugins;
 using static DiscordBotPluginManager.Functions;
 
 namespace DiscordBot
@@ -40,8 +33,8 @@ namespace DiscordBot
                 Directory.CreateDirectory(@".\Data\Resources");
                 File.WriteAllText(@".\Data\Resources\DiscordBotCore.data", "#Discord bot data\nBOT_TOKEN\t\"YOUR TOKEN HERE\"\nBOT_PREFIX\t!");
                 MessageBox.Show("Edit file : .\\Data\\Resources\\DiscordBotCore.data. Insert your token (and prefix)",
-                                            "Discord Bot", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                System.Environment.Exit(0);
+                    "Discord Bot", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Environment.Exit(0);
             }
         }
 
@@ -74,33 +67,27 @@ namespace DiscordBot
                     labelFailedLoadPlugin.Visible = true;
                     await Task.Delay(2000);
                     labelFailedLoadPlugin.Visible = false;
-                    return;
                 }
                 else
                 {
                     PluginLoader loader = new PluginLoader();
-                    var plgs = loader.LoadPlugins(richTextBox1);
-                    if (!initClickMethod)
+                    loader.onCMDLoad += (name, success, exception) =>
                     {
-                        buttonManagePlugins.Click += (Sender, arg) =>
-                          {
-                              Task.Run(async () =>
-                                   new Plugins_Manager(plgs, discordBooter.client, this.ForeColor, this.BackColor).ShowDialog());
-
-                          };
-                        initClickMethod = true;
-                    }
-                    foreach (var v in PluginLoader.Addons)
+                        if (success)
+                            richTextBox1.AppendText("Command " + name + " successfully initialized");
+                        else
+                            richTextBox1.AppendText("Command " + name + " failed to load. Reason: " + exception.Message);
+                    };
+                    loader.onADDLoad += (name, success, exception) =>
                     {
-                        v.Execute(this);
-                    }
-
-                    buttonReloadPlugins.Enabled = false;
+                        if (success)
+                            richTextBox1.AppendText("Addon " + name + " successfully initialized");
+                        else
+                            richTextBox1.AppendText("Addon " + name + " failed to load. Reason: " + exception.Message);
+                    };
+                    buttonReloadPlugins.Enabled =  false;
                 }
             };
-
-
-
         }
     }
 }
