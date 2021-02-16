@@ -80,6 +80,10 @@ namespace AdminPanel_Addon
             string zipPath = Path.Combine(".\\AdminPanel", "AdminPanel.pkg");
             
             // ReadImage is a function that returns an image from a zip package
+            // ReadImage has this parameters: 
+            // Image location in zip: the path to the image file
+            // The zip Location path
+            // Example: ReadImage("pic.png", @".\Files.zip"); - get the image from pic.png from the zi[ file located in Files.ZIP (archive located in the same folder as the exe)
             Image image = DiscordBotPluginManager.Functions.ReadImage("AdminPanel/Images/menuStrip/defaultIcon.png", zipPath);
             var item = menuStrip.Items.Add("Admin Plugin", image) as ToolStripMenuItem;
             item.DropDownItems.Add("Send Message", null, (Sender, e) =>
