@@ -85,7 +85,7 @@ namespace AdminPanel_Addon
             item.DropDownItems.Add("Send Message", null, (Sender, e) =>
              {
                  //You can add forms and more on your Addon
-                 new Forms.Admin().ShowDialog();
+                 MessageBox.Show("Hello World", "Addon");
              });
 
             return 0;
