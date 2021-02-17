@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Reflection.Emit;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using DiscordBot.Discord.Core;
@@ -71,17 +72,18 @@ namespace DiscordBot
                 else
                 {
                     PluginLoader loader = new PluginLoader();
+                    richTextBox1.AppendText("[PLUGIN] Initializing plugin system...\n");
                     loader.onCMDLoad += (name, success, exception) =>
                     {
                         if (success)
-                            richTextBox1.AppendText("Command " + name + " successfully initialized");
+                            richTextBox1.AppendText("[PLUGIN] Command " + name + " successfully initialized\n");
                         else
                             richTextBox1.AppendText("Command " + name + " failed to load. Reason: " + exception.Message);
                     };
                     loader.onADDLoad += (name, success, exception) =>
                     {
                         if (success)
-                            richTextBox1.AppendText("Addon " + name + " successfully initialized");
+                            richTextBox1.AppendText("[PLUGIN] Addon " + name + " successfully initialized\n");
                         else
                             richTextBox1.AppendText("Addon " + name + " failed to load. Reason: " + exception.Message);
                     };
