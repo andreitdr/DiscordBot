@@ -32,8 +32,8 @@ namespace DiscordBotPluginManager
 				Directory.CreateDirectory(ADDPath);
 				return null;
 			}
-
-			string[] files = Directory.GetFiles(ADDPath, $"*.{ADDExtension}", SearchOption.AllDirectories);
+			
+			string[] files = Directory.GetFiles(ADDPath, $"*{ADDExtension}", SearchOption.AllDirectories);
 			foreach (var file in files)
 			{
 				Assembly.LoadFile(Path.GetFullPath(file));
@@ -58,6 +58,7 @@ namespace DiscordBotPluginManager
 						addons.Add(addon);
 						if (OnAddonLoaded != null)
 							OnAddonLoaded.Invoke(type.FullName, true, addon);
+						
 					} catch (Exception exception)
 					{
 						if (OnAddonLoaded != null)

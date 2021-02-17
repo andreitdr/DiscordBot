@@ -32,7 +32,7 @@ namespace DiscordBotPluginManager
 				Directory.CreateDirectory(CMDPath);
 				return null;
 			}
-			string[] files = Directory.GetFiles(CMDPath, $"*.{CMDExtension}", SearchOption.AllDirectories);
+			string[] files = Directory.GetFiles(CMDPath, $"*{CMDExtension}", SearchOption.AllDirectories);
 
 			foreach (var file in files)
 			{

@@ -9,6 +9,7 @@ namespace DiscordBotPluginManager
 {
     public class PluginLoader
     {
+
         private const string         pluginCMDFolder    = @".\Data\Plugins\Commands\";
         private const string         pluginADDFolder    = @".\Data\Plugins\Addons\";
         private const string         pluginCMDExtension = ".dll";
@@ -27,7 +28,7 @@ namespace DiscordBotPluginManager
         {
             Plugins = new List<DBPlugin>();
             Addons  = new List<DBAddon>();
-
+            
             //Load commands
             CommandsLoader CMDLoader = new CommandsLoader(pluginCMDFolder, pluginCMDExtension);
             CMDLoader.OnCommandLoaded += OnCommandLoaded;
