@@ -1,0 +1,10 @@
+D:\Stuff\Files\Visual Studio Builds\Patcher\Patcher\bin\Debug\Patcher.exe.config
+D:\Stuff\Files\Visual Studio Builds\Patcher\Patcher\bin\Debug\Patcher.exe
+D:\Stuff\Files\Visual Studio Builds\Patcher\Patcher\bin\Debug\Patcher.pdb
+D:\Stuff\Files\Visual Studio Builds\Patcher\Patcher\obj\Debug\Patcher.Form1.resources
+D:\Stuff\Files\Visual Studio Builds\Patcher\Patcher\obj\Debug\Patcher.Properties.Resources.resources
+D:\Stuff\Files\Visual Studio Builds\Patcher\Patcher\obj\Debug\Patcher.csproj.GenerateResource.cache
+D:\Stuff\Files\Visual Studio Builds\Patcher\Patcher\obj\Debug\Patcher.csproj.CoreCompileInputs.cache
+D:\Stuff\Files\Visual Studio Builds\Patcher\Patcher\obj\Debug\Patcher.exe
+D:\Stuff\Files\Visual Studio Builds\Discord Bot\DiscordBot\DiscordBot\bin\Debug\Patcher.exe.config
+D:\Stuff\Files\Visual Studio Builds\Discord Bot\DiscordBot\DiscordBot\bin\Debug\Patcher.exe
