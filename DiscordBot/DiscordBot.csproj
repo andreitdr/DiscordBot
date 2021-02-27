@@ -32,6 +32,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Discord.Net.Commands, Version=2.3.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Discord.Net.Commands.2.3.0\lib\net461\Discord.Net.Commands.dll</HintPath>
@@ -142,7 +145,11 @@
 del *.config
 del *.pdb
 del *.xml
-ROBOCOPY "$(TargetDir) " "$(TargetDir)Data\lib " /XF *.exe *.rar *.zip *.manifest /XD Data Output /E /IS /MOVE
+ROBOCOPY "$(TargetDir) " "$(TargetDir)Data\lib " /XF *.exe *.bot *.rar *.zip *.manifest /XD Data Output /E /IS /MOVE
+del *.bot
+rename DiscordBot.exe main.bot
+
+del *.dll
 if %25errorlevel%25 leq 4 exit 0 else exit %25errorlevel%25</PostBuildEvent>
   </PropertyGroup>
 </Project>
