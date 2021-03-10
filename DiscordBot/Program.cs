@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Windows.Forms;
 
 namespace DiscordBot
@@ -15,6 +16,7 @@ namespace DiscordBot
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
 			AppDomain.CurrentDomain.AppendPrivatePath("Data\\lib");
+
 			Application.Run(new Form1());
 		}
 	}

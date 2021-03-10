@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using DiscordBot.Discord.Core;
 using DiscordBotPluginManager;
+using DiscordBotPluginManager.Language_System;
 using DiscordBotPluginManager.Plugins;
 using static DiscordBotPluginManager.Functions;
 
@@ -11,13 +12,41 @@ namespace DiscordBot
 	public partial class Form1 : Form
 	{
 		private Boot discordBooter;
-		private bool initClickMethod;
 
 		public Form1()
 		{
 			InitializeComponent();
+			Directory.CreateDirectory(dataFolder);
+			DetectLanguage();
 			LoadTexts();
 			Load += (sender, e) => FormLoaded();
+		}
+
+		private void DetectLanguage()
+		{
+			if (!File.Exists(Path.Combine(dataFolder, "DiscordBotSettings.data")))
+			{
+				LoadLanguage("English");
+				File.WriteAllText(Path.Combine(dataFolder, "DiscordBotSettings.data"), "BotLanguage=English");
+				return;
+			}
+
+			string language =
+				readCodeFromFile("DiscordBotSettings.data", SearchDirectory.RESOURCES, "BotLanguage", '=');
+
+			if (language != null)
+				LoadLanguage(language);
+			else LoadLanguage("English");
+		}
+
+		private void LoadLanguage(string name)
+		{
+			foreach (string file in Directory.EnumerateFiles(langFolder))
+				if (readCodeFromFile(new FileInfo(file).Name, SearchDirectory.LANGUAGE,
+					"LANGUAGE_NAME",                          '=') == name)
+					Language.ActiveLanguage = Language.CreateLanguageFromFile(file);
+
+			LoadTextsOnForm();
 		}
 
 		private void LoadTexts()
@@ -32,16 +61,39 @@ namespace DiscordBot
 			catch
 			{
 				Directory.CreateDirectory(@".\Data\Resources");
-				MessageBox.Show("Inser your token and the prefix and then press Start bot.",
-					"Discord Bot", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				MessageBox.Show(Language.ActiveLanguage.LanguageWords["INVALID_TOKEN"],
+					Language.ActiveLanguage.LanguageWords["INVALID_TOKEN_TITLE"], MessageBoxButtons.OK,
+					MessageBoxIcon.Error);
 
 				textBoxPrefix.ReadOnly = false;
 				textBoxToken.ReadOnly  = false;
 			}
 		}
 
+		private void LoadTextsOnForm()
+		{
+			if (Language.ActiveLanguage == null) return;
+			groupBox1.Text             = Language.ActiveLanguage.LanguageWords["FORM_GROUPBOX_BOT_INFORMATION"];
+			labelToken.Text            = Language.ActiveLanguage.LanguageWords["FORM_LABEL_TOKEN"];
+			labelPrefix.Text           = Language.ActiveLanguage.LanguageWords["FORM_LABEL_PREFIX"];
+			labelClipboardCopy.Text    = Language.ActiveLanguage.LanguageWords["FORM_LABEL_COPY_CLIPBOARD"];
+			labelFailedLoadPlugin.Text = Language.ActiveLanguage.LanguageWords["FORM_LABEL_FAIL_LOAD_PLUGINS"];
+			buttonCopyToken.Text       = Language.ActiveLanguage.LanguageWords["FORM_BUTTON_COPY_TOKEN"];
+			buttonManagePlugins.Text   = Language.ActiveLanguage.LanguageWords["FORM_BUTTON_MANAGE_PLUGINS"];
+			buttonReloadPlugins.Text   = Language.ActiveLanguage.LanguageWords["FORM_BUTTON_RELOAD_PLUGINS"];
+			buttonStartBot.Text        = Language.ActiveLanguage.LanguageWords["FORM_BUTTON_START"];
+			Text                       = Language.ActiveLanguage.LanguageWords["FORM_TITLE"];
+		}
+
 		private void FormLoaded()
 		{
+			buttonCopyToken.AutoSize     = true;
+			buttonManagePlugins.AutoSize = true;
+			buttonReloadPlugins.AutoSize = true;
+			buttonStartBot.AutoSize      = true;
+			groupBox1.AutoSize           = true;
+			AutoSize                     = true;
+
 			buttonCopyToken.Click += async (sender, e) =>
 			{
 				if (labelClipboardCopy.Visible)
@@ -59,10 +111,10 @@ namespace DiscordBot
 
 				if (!textBoxPrefix.ReadOnly)
 				{
-					var prefix = textBoxPrefix.Text;
+					string prefix = textBoxPrefix.Text;
 					if (prefix.Length != 1) return;
 
-					var token = textBoxToken.Text;
+					string token = textBoxToken.Text;
 					if (token == null || token.Length != 59)
 						return;
 
@@ -90,21 +142,30 @@ namespace DiscordBot
 				else
 				{
 					var loader = new PluginLoader();
-					richTextBox1.AppendText("[PLUGIN] Initializing plugin system...\n");
+					richTextBox1.AppendText(Language.ActiveLanguage.LanguageWords["PLUGIN_LOADING_START"] + "\n");
 					loader.onCMDLoad += (name, success, exception) =>
 					{
 						if (success)
-							richTextBox1.AppendText("[PLUGIN] Command " + name + " successfully initialized\n");
+							richTextBox1.AppendText(
+								Language.ActiveLanguage.FormatText(
+									Language.ActiveLanguage.LanguageWords["PLUGIN_LOAD_SUCCESS"], name) + "\n");
 						else
-							richTextBox1.AppendText("Command " + name + " failed to load. Reason: " +
-							                        exception.Message);
+							richTextBox1.AppendText(
+								Language.ActiveLanguage.FormatText(
+									Language.ActiveLanguage.LanguageWords["PLUGIN_LOAD_FAIL"], name,
+									exception.Message) + "\n");
 					};
 					loader.onADDLoad += (name, success, exception) =>
 					{
 						if (success)
-							richTextBox1.AppendText("[PLUGIN] Addon " + name + " successfully initialized\n");
+							richTextBox1.AppendText(
+								Language.ActiveLanguage.FormatText(
+									Language.ActiveLanguage.LanguageWords["ADDON_LOAD_SUCCESS"], name) + "\n");
 						else
-							richTextBox1.AppendText("Addon " + name + " failed to load. Reason: " + exception.Message);
+							richTextBox1.AppendText(
+								Language.ActiveLanguage.FormatText(
+									Language.ActiveLanguage.LanguageWords["ADDON_LOAD_FAIL"], name,
+									exception.Message) + "\n");
 					};
 
 					buttonManagePlugins.Click += (o, args) =>
@@ -117,6 +178,21 @@ namespace DiscordBot
 
 
 					buttonReloadPlugins.Enabled = false;
+				}
+			};
+
+			languageToolStripMenuItem.Click += (sender, e) =>
+			{
+				if (languageToolStripMenuItem.HasDropDownItems)
+					languageToolStripMenuItem.DropDownItems.Clear();
+
+
+				foreach (string file in Directory.EnumerateFiles(langFolder))
+				{
+					string langName = readCodeFromFile(new FileInfo(file).Name, SearchDirectory.LANGUAGE,
+						"LANGUAGE_NAME",                                        '=');
+					ToolStripItem ms = languageToolStripMenuItem.DropDownItems.Add(langName);
+					ms.Click += (_, __) => { LoadLanguage(langName); };
 				}
 			};
 		}

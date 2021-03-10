@@ -87,6 +87,7 @@
     <Compile Include="Functions.cs" />
     <Compile Include="Help.cs" />
     <Compile Include="DBPlugin.cs" />
+    <Compile Include="Language System\Language.cs" />
     <Compile Include="Permissions.cs" />
     <Compile Include="PluginLoader.cs" />
     <Compile Include="Plugins\Plugins Manager.cs">
