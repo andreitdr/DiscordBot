@@ -41,7 +41,6 @@
 			this.buttonStartBot = new System.Windows.Forms.Button();
 			this.richTextBox1 = new System.Windows.Forms.RichTextBox();
 			this.labelConnectionStatus = new System.Windows.Forms.Label();
-			this.progressBar1 = new System.Windows.Forms.ProgressBar();
 			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
 			this.languageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.groupBox1.SuspendLayout();
@@ -185,14 +184,6 @@
 			this.labelConnectionStatus.Size = new System.Drawing.Size(0, 13);
 			this.labelConnectionStatus.TabIndex = 3;
 			// 
-			// progressBar1
-			// 
-			this.progressBar1.Location = new System.Drawing.Point(456, 340);
-			this.progressBar1.Name = "progressBar1";
-			this.progressBar1.Size = new System.Drawing.Size(319, 23);
-			this.progressBar1.TabIndex = 4;
-			this.progressBar1.Visible = false;
-			// 
 			// menuStrip1
 			// 
 			this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -214,7 +205,6 @@
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(787, 387);
-			this.Controls.Add(this.progressBar1);
 			this.Controls.Add(this.labelConnectionStatus);
 			this.Controls.Add(this.richTextBox1);
 			this.Controls.Add(this.buttonStartBot);
@@ -246,7 +236,6 @@
         private System.Windows.Forms.Label labelClipboardCopy;
         private System.Windows.Forms.Button buttonReloadPlugins;
         private System.Windows.Forms.Label labelFailedLoadPlugin;
-        private System.Windows.Forms.ProgressBar progressBar1;
         private System.Windows.Forms.Button buttonManagePlugins;
 		private System.Windows.Forms.MenuStrip menuStrip1;
 		private System.Windows.Forms.ToolStripMenuItem languageToolStripMenuItem;

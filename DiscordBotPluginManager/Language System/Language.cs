@@ -38,9 +38,7 @@ namespace DiscordBotPluginManager.Language_System
 
 			foreach (string line in lines)
 			{
-				if (line.StartsWith("#"))
-					continue;
-				if (line.Length < 4)
+				if (line.StartsWith("#") || line.Length < 4)
 					continue;
 				string[] sLine = line.Split('=');
 
@@ -50,10 +48,11 @@ namespace DiscordBotPluginManager.Language_System
 					continue;
 				}
 
-				//MessageBox.Show(LanguageFileLocation + "\n" + languageName + "\n" + line.Split('=')[0]);
 				words.Add(sLine[0], sLine[1]);
 			}
 
+			Functions.WriteLogFile("Successfully loaded language: " + languageName + " from file : " +
+			                       LanguageFileLocation.Replace('\\', '/'));
 			return new Language(LanguageFileLocation, words, languageName);
 		}
 
