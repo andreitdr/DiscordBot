@@ -94,6 +94,12 @@ namespace DiscordBot
 			groupBox1.AutoSize           = true;
 			AutoSize                     = true;
 
+			FormClosing += (sender, e) =>
+			{
+				File.WriteAllText(Path.Combine(dataFolder, "DiscordBotSettings.data"),
+					"BotLanguage=" + Language.ActiveLanguage.LanguageName);
+			};
+
 			buttonCopyToken.Click += async (sender, e) =>
 			{
 				if (labelClipboardCopy.Visible)
@@ -181,11 +187,10 @@ namespace DiscordBot
 				}
 			};
 
+
 			languageToolStripMenuItem.Click += (sender, e) =>
 			{
-				if (languageToolStripMenuItem.HasDropDownItems)
-					languageToolStripMenuItem.DropDownItems.Clear();
-
+				languageToolStripMenuItem.DropDownItems.Clear();
 
 				foreach (string file in Directory.EnumerateFiles(langFolder))
 				{

@@ -8,6 +8,8 @@ namespace DiscordBotPluginManager.Language_System
 	{
 		public static Language ActiveLanguage = null;
 
+		private static readonly string LanguageFileExtension = ".lng";
+
 		private Language(string fileName, Dictionary<string, string> words, string LanguageName)
 		{
 			this.fileName     = fileName;
@@ -23,7 +25,7 @@ namespace DiscordBotPluginManager.Language_System
 
 		public static Language CreateLanguageFromFile(string LanguageFileLocation)
 		{
-			if (!LanguageFileLocation.EndsWith(".lng"))
+			if (!LanguageFileLocation.EndsWith(LanguageFileExtension))
 			{
 				MessageBox.Show("Failed to load Language from file: " + LanguageFileLocation +
 				                "\nFile extension is not .lng");
