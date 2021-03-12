@@ -49,6 +49,12 @@ namespace DiscordBot
 			LoadTextsOnForm();
 		}
 
+		private void LoadLanguageFile(string filePath)
+		{
+			Language.ActiveLanguage = Language.CreateLanguageFromFile(filePath);
+			LoadTextsOnForm();
+		}
+
 		private void LoadTexts()
 		{
 			try
@@ -197,8 +203,11 @@ namespace DiscordBot
 					string langName = readCodeFromFile(new FileInfo(file).Name, SearchDirectory.LANGUAGE,
 						"LANGUAGE_NAME",                                        '=');
 					ToolStripItem ms = languageToolStripMenuItem.DropDownItems.Add(langName);
-					ms.Click += (_, __) => { LoadLanguage(langName); };
+					ms.Click += (_, __) => { LoadLanguageFile(file); };
 				}
+
+				languageToolStripMenuItem.DoubleClickEnabled = false;
+				languageToolStripMenuItem.ShowDropDown();
 			};
 		}
 	}
