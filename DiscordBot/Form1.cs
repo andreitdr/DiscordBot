@@ -1,9 +1,13 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+
+using DiscordBot.App.FirstTime;
 using DiscordBot.Discord.Core;
 using DiscordBotPluginManager;
 using DiscordBotPluginManager.Language_System;
+using DiscordBotPluginManager.Online;
 using DiscordBotPluginManager.Plugins;
 using static DiscordBotPluginManager.Functions;
 
@@ -45,7 +49,12 @@ namespace DiscordBot
 				if (readCodeFromFile(new FileInfo(file).Name, SearchDirectory.LANGUAGE,
 					"LANGUAGE_NAME",                          '=') == name)
 					Language.ActiveLanguage = Language.CreateLanguageFromFile(file);
-
+			if (Language.ActiveLanguage == null)
+			{
+				new LanguageDownloadFirst().ShowDialog();
+				DetectLanguage();
+				return;
+			}
 			LoadTextsOnForm();
 		}
 
@@ -57,6 +66,7 @@ namespace DiscordBot
 
 		private void LoadTexts()
 		{
+
 			try
 			{
 				textBoxToken.Text =
@@ -67,6 +77,13 @@ namespace DiscordBot
 			catch
 			{
 				Directory.CreateDirectory(@".\Data\Resources");
+				if (Language.ActiveLanguage == null)
+				{
+					MessageBox.Show("Invalid Token");
+					textBoxPrefix.ReadOnly = false;
+					textBoxToken.ReadOnly = false;
+					return;
+				}
 				MessageBox.Show(Language.ActiveLanguage.LanguageWords["INVALID_TOKEN"],
 					Language.ActiveLanguage.LanguageWords["INVALID_TOKEN_TITLE"], MessageBoxButtons.OK,
 					MessageBoxIcon.Error);
@@ -102,8 +119,16 @@ namespace DiscordBot
 
 			FormClosing += (sender, e) =>
 			{
-				File.WriteAllText(Path.Combine(dataFolder, "DiscordBotSettings.data"),
-					"BotLanguage=" + Language.ActiveLanguage.LanguageName);
+                try
+				{
+					File.WriteAllText(Path.Combine(dataFolder, "DiscordBotSettings.data"),
+							"BotLanguage=" + Language.ActiveLanguage.LanguageName);
+
+				}catch(Exception ex)
+                {
+					Functions.WriteLogFile(ex.Message);
+                }
+
 			};
 
 			buttonCopyToken.Click += async (sender, e) =>
@@ -193,6 +218,7 @@ namespace DiscordBot
 				}
 			};
 
+			downloadNewLanguageToolStripMenuItem.Click += (sender, e) => { new DiscordBotPluginManager.Online.LanguageList().ShowDialog(); };
 
 			languageToolStripMenuItem.Click += (sender, e) =>
 			{
