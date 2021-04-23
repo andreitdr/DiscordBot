@@ -51,7 +51,7 @@ namespace DiscordBotPluginManager.Plugins
 			LoadAddonGrid(Addons.ToArray());
 			LoadCMDGrid(PluginLoader.Plugins.ToArray());
 
-			buttonDownloadPlugin.Click += (sender, e) => { new Plugin_Downloader().ShowDialog(); };
+			//buttonDownloadPlugin.Click += (sender, e) => { new Plugin_Downloader().ShowDialog(); };
 			Text                       =  "Entry Latency : " + client.Latency;
 		}
 
