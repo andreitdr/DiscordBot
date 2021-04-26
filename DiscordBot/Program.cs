@@ -1,6 +1,5 @@
-﻿
-using System;
-using System.Windows.Forms;
+﻿using S = System;
+using F = System.Windows.Forms;
 
 namespace DiscordBot
 {
@@ -9,13 +8,14 @@ namespace DiscordBot
         /// <summary>
         ///     The main entry point for the application.
         /// </summary>
-        [STAThread]
-        [Obsolete]
+        [S::STAThread]
+        [S::Obsolete]
         public static void Main(string[] args) {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            AppDomain.CurrentDomain.AppendPrivatePath("Data\\lib");
-            Application.Run(new Form1());
+
+            F::Application.EnableVisualStyles();
+            F::Application.SetCompatibleTextRenderingDefault(false);
+            S::AppDomain.CurrentDomain.AppendPrivatePath("Data\\lib");
+            F::Application.Run(new Form1());
         }
     }
 }
