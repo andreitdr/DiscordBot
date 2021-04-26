@@ -7,6 +7,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiscordBot", "DiscordBot\Di
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiscordBotPluginManager", "DiscordBotPluginManager\DiscordBotPluginManager.csproj", "{AB126DA3-9755-4091-B498-6AC44E5ABE6D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Leveling System", "Leveling System\Leveling System.csproj", "{DDDEE07B-38EA-445D-A458-C5133E08A500}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Leveling System Event", "Leveling System Event\Leveling System Event.csproj", "{C2D896A3-263A-4239-9E1A-967058267498}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,14 @@ Global
 		{AB126DA3-9755-4091-B498-6AC44E5ABE6D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AB126DA3-9755-4091-B498-6AC44E5ABE6D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AB126DA3-9755-4091-B498-6AC44E5ABE6D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DDDEE07B-38EA-445D-A458-C5133E08A500}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DDDEE07B-38EA-445D-A458-C5133E08A500}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DDDEE07B-38EA-445D-A458-C5133E08A500}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DDDEE07B-38EA-445D-A458-C5133E08A500}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C2D896A3-263A-4239-9E1A-967058267498}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C2D896A3-263A-4239-9E1A-967058267498}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C2D896A3-263A-4239-9E1A-967058267498}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C2D896A3-263A-4239-9E1A-967058267498}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -47,7 +47,9 @@
     <Compile Include="AddonsLoader.cs" />
     <Compile Include="CommandsLoader.cs" />
     <Compile Include="DBAddon.cs" />
+    <Compile Include="DBEvent.cs" />
     <Compile Include="Enums.cs" />
+    <Compile Include="EventsLoader.cs" />
     <Compile Include="Functions.cs" />
     <Compile Include="Help.cs" />
     <Compile Include="DBPlugin.cs" />
