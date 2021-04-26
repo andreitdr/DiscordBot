@@ -60,6 +60,12 @@
     <Compile Include="Online\LanguageList.Designer.cs">
       <DependentUpon>LanguageList.cs</DependentUpon>
     </Compile>
+    <Compile Include="Online\PluginsList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Online\PluginsList.Designer.cs">
+      <DependentUpon>PluginsList.cs</DependentUpon>
+    </Compile>
     <Compile Include="Permissions.cs" />
     <Compile Include="PluginLoader.cs" />
     <Compile Include="Plugins\Plugins Manager.cs">
@@ -73,6 +79,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Online\LanguageList.resx">
       <DependentUpon>LanguageList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Online\PluginsList.resx">
+      <DependentUpon>PluginsList.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Plugins\Plugins Manager.resx">
       <DependentUpon>Plugins Manager.cs</DependentUpon>

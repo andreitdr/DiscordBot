@@ -191,6 +191,7 @@ namespace DiscordBot
                                     Language.ActiveLanguage.LanguageWords["PLUGIN_LOAD_FAIL"], name,
                                     exception.Message) + "\n");
                     };
+
                     loader.onADDLoad += (name, success, exception) =>
                     {
                         if (success)
@@ -204,7 +205,8 @@ namespace DiscordBot
                                     exception.Message) + "\n");
                     };
 
-                    loader.onEVELoad += (name, success, exception) => {
+                    loader.onEVELoad += (name, success, exception) =>
+                    {
                         if (success)
                             richTextBox1.AppendText(
                                 Language.ActiveLanguage.FormatText(
@@ -248,6 +250,11 @@ namespace DiscordBot
 
                 languageToolStripMenuItem.DoubleClickEnabled = false;
                 languageToolStripMenuItem.ShowDropDown();
+            };
+
+            downloadPluginsToolStripMenuItem.Click += (sender, e) =>
+            {
+                new PluginsList().ShowDialog();
             };
         }
     }

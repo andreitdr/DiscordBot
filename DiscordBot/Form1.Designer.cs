@@ -44,6 +44,7 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.languageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.downloadPluginsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -190,7 +191,8 @@
             // menuStrip1
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.languageToolStripMenuItem});
+            this.languageToolStripMenuItem,
+            this.downloadPluginsToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(787, 24);
@@ -210,6 +212,12 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(376, 347);
             this.panel1.TabIndex = 6;
+            // 
+            // downloadPluginsToolStripMenuItem
+            // 
+            this.downloadPluginsToolStripMenuItem.Name = "downloadPluginsToolStripMenuItem";
+            this.downloadPluginsToolStripMenuItem.Size = new System.Drawing.Size(115, 20);
+            this.downloadPluginsToolStripMenuItem.Text = "Download Plugins";
             // 
             // Form1
             // 
@@ -252,6 +260,7 @@
 		private System.Windows.Forms.MenuStrip menuStrip1;
 		private System.Windows.Forms.ToolStripMenuItem languageToolStripMenuItem;
         private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.ToolStripMenuItem downloadPluginsToolStripMenuItem;
     }
 }
 
