@@ -346,3 +346,5 @@ DiscordBot/obj/
 DiscordBotPluginManager/obj/
 DiscordBotPluginManager/bin/
 /Commands
+/L*
+/Mig*
