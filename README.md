@@ -97,3 +97,38 @@ namespace AdminPanel_Addon
     }
 }
 ```
+
+Model for Event
+```cs
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+using Discord.WebSocket;
+using DiscordBotPluginManager;
+
+namespace TestCustomEvent
+{
+    public class CustomEventClass : DBEvent
+    {
+        public string name => "Event Name";
+
+        public string description => "Event Description";
+
+        public void Start(DiscordSocketClient client) {
+            //Create an event handler for the client
+            //In this example i use the MessageReceived event
+            client.MessageReceived += Client_MessageReceived;
+        }
+
+        private async Task Client_MessageReceived(SocketMessage arg){
+
+            //Your code...
+
+        }
+    }
+}
+
+```
