@@ -67,6 +67,9 @@ namespace DiscordBotPluginManager.Online
             {
                 if (e.ColumnIndex == 4 && e.RowIndex >= 0)
                 {
+                    Directory.CreateDirectory(@".\Data\Plugins\Commands");
+                    Directory.CreateDirectory(@".\Data\Plugins\Addons");
+                    Directory.CreateDirectory(@".\Data\Plugins\Events");
                     if (dataGridLines[e.RowIndex].Type == "Command")
                     {
                         string argument = "/dw=\"" + dataGridLines[e.RowIndex].Link + "\" /file=\"" + ".\\DaData\\Plugins\\Commands\\" + dataGridLines[e.RowIndex].Name + ".dll" + "\"";
