@@ -4,9 +4,11 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Runtime.Remoting.Channels;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -15,15 +17,13 @@ namespace DiscordBot.App.FirstTime
 {
     public partial class SettingsFirstRun : Form
     {
-        public SettingsFirstRun()
-        {
+        public SettingsFirstRun() {
             InitializeComponent();
 
             Load += (sender, e) => FormLoad();
         }
 
-        private void FormLoad()
-        {
+        private void FormLoad() {
 
             if (File.Exists(@".\Data\Resources\DiscordBotCore.data"))
             {
@@ -35,14 +35,14 @@ namespace DiscordBot.App.FirstTime
                 textBox1.Clear();
                 textBox2.Clear();
             }
-            foreach(var file in Directory.EnumerateFiles(Functions.langFolder))
+            foreach (var file in Directory.EnumerateFiles(Functions.langFolder))
             {
                 string name = new FileInfo(file).Name;
                 string langName = Functions.readCodeFromFile(name, SearchDirectory.LANGUAGE, "LANGUAGE_NAME", '=');
                 comboBox1.Items.Add(langName);
             }
 
-            if(comboBox1.Items.Count == 0)
+            if (comboBox1.Items.Count == 0)
             {
                 DialogResult = DialogResult.Abort;
                 this.Close();
@@ -58,7 +58,7 @@ namespace DiscordBot.App.FirstTime
                     return;
                 }
 
-                if(textBox2.Text.Length != 1)
+                if (textBox2.Text.Length != 1)
                 {
                     MessageBox.Show("Invalid Discord bot prefix !", "Discord Bot", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
@@ -75,6 +75,11 @@ namespace DiscordBot.App.FirstTime
                     $"BOT_TOKEN\t{textBox1.Text}\nBOT_PREFIX\t{textBox2.Text}\n");
                 File.WriteAllText(@".\Data\Resources\DiscordBotSettings.data", "BotLanguage=" + comboBox1.SelectedItem.ToString());
                 this.Close();
+            };
+
+            button2.Click += (sender, e) =>
+            {
+                Process.Start("https://discord.com/developers/applications/");
             };
         }
 

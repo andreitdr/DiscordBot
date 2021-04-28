@@ -62,6 +62,7 @@ namespace DiscordBotPluginManager.Plugins
             // 
             // dataGridAddons
             // 
+            this.dataGridAddons.AllowUserToAddRows = false;
             this.dataGridAddons.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridAddons.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dataGridViewTextBoxColumn1,
@@ -123,6 +124,7 @@ namespace DiscordBotPluginManager.Plugins
             // 
             // dataGridCommands
             // 
+            this.dataGridCommands.AllowUserToAddRows = false;
             this.dataGridCommands.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridCommands.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dataGridViewTextBoxColumn4,

@@ -43,8 +43,8 @@
             this.labelConnectionStatus = new System.Windows.Forms.Label();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.languageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.panel1 = new System.Windows.Forms.Panel();
             this.downloadPluginsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.panel1 = new System.Windows.Forms.Panel();
             this.groupBox1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -205,6 +205,12 @@
             this.languageToolStripMenuItem.Size = new System.Drawing.Size(71, 20);
             this.languageToolStripMenuItem.Text = "Language";
             // 
+            // downloadPluginsToolStripMenuItem
+            // 
+            this.downloadPluginsToolStripMenuItem.Name = "downloadPluginsToolStripMenuItem";
+            this.downloadPluginsToolStripMenuItem.Size = new System.Drawing.Size(115, 20);
+            this.downloadPluginsToolStripMenuItem.Text = "Download Plugins";
+            // 
             // panel1
             // 
             this.panel1.Controls.Add(this.richTextBox1);
@@ -212,12 +218,6 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(376, 347);
             this.panel1.TabIndex = 6;
-            // 
-            // downloadPluginsToolStripMenuItem
-            // 
-            this.downloadPluginsToolStripMenuItem.Name = "downloadPluginsToolStripMenuItem";
-            this.downloadPluginsToolStripMenuItem.Size = new System.Drawing.Size(115, 20);
-            this.downloadPluginsToolStripMenuItem.Text = "Download Plugins";
             // 
             // Form1
             // 
@@ -229,6 +229,7 @@
             this.Controls.Add(this.buttonStartBot);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.menuStrip1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form1";
             this.Text = "Discord Bot";
