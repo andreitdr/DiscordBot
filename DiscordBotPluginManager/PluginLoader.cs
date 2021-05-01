@@ -40,8 +40,11 @@ namespace DiscordBotPluginManager
         public EVELoaded onEVELoad;
 
         public void LoadPlugins() {
+
             Plugins = new List<DBPlugin>();
             Addons = new List<DBAddon>();
+            Events = new List<DBEvent>();
+
 
             //Load commands
             CommandsLoader CMDLoader = new CommandsLoader(pluginCMDFolder, pluginCMDExtension);

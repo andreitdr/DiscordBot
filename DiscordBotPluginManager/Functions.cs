@@ -99,5 +99,18 @@ namespace DiscordBotPluginManager
                 Directory.CreateDirectory(errFolder);
             File.AppendAllText(errPath, ErrMessage + " \n");
         }
+
+        public static void WriteToSettings(string file, string Code, string newValue, char separator) {
+            string[] lines = File.ReadAllLines(file);
+            File.Delete(file);
+            bool ok = false;
+            foreach (var line in lines)
+                if (line.StartsWith(Code))
+                { File.AppendAllText(file, Code + separator + newValue + "\r\n"); ok = true; }
+                else File.AppendAllText(file, line + "\r\n");
+
+            if (!ok)
+                File.AppendAllText(file, Code + separator + newValue + "\r\n");
+        }
     }
 }

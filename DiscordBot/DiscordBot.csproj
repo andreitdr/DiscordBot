@@ -62,6 +62,7 @@
     <Compile Include="App\FirstTime\SettingsFirstRun.Designer.cs">
       <DependentUpon>SettingsFirstRun.cs</DependentUpon>
     </Compile>
+    <Compile Include="App\Theme\Theme.cs" />
     <Compile Include="Discord\Core\Boot.cs" />
     <Compile Include="Discord\Core\CommandHandler.cs" />
     <Compile Include="Form1.cs">

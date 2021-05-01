@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
 using DiscordBot.App.FirstTime;
+using DiscordBot.App.Theme;
 using DiscordBot.Discord.Core;
 
 using DiscordBotPluginManager;
@@ -17,6 +20,8 @@ namespace DiscordBot
 {
     public partial class Form1 : Form
     {
+        private Point mousedownpoint = Point.Empty;
+
         private Boot discordBooter;
 
         public Form1() {
@@ -114,6 +119,9 @@ namespace DiscordBot
             buttonStartBot.AutoSize = true;
             groupBox1.AutoSize = true;
             AutoSize = true;
+
+            InitializeFormControls();
+            InitializeTheme();
 
             FormClosing += (sender, e) =>
             {
@@ -255,6 +263,80 @@ namespace DiscordBot
             downloadPluginsToolStripMenuItem.Click += (sender, e) =>
             {
                 new PluginsList().ShowDialog();
+            };
+        }
+
+        private void InitializeFormControls() {
+
+            menuStrip1.MouseDown += (sender, e) =>
+            {
+                mousedownpoint = new Point(e.X, e.Y);
+            };
+            menuStrip1.MouseMove += (sender, e) =>
+            {
+                if (mousedownpoint.IsEmpty)
+                    return;
+                Location = new Point(Location.X + (e.X - mousedownpoint.X), Location.Y + (e.Y - mousedownpoint.Y));
+            };
+            menuStrip1.MouseUp += (sender, e) => { mousedownpoint = Point.Empty; };
+
+            //Design
+            panelExit.Paint += (sender, e) =>
+            {
+                Graphics z = e.Graphics;
+                var pen = new Pen(Color.FromArgb(230, 179, 70));
+                z.DrawLine(pen, 7, 7, 19, 19);
+                z.DrawLine(pen, 7, 19, 19, 7);
+                z.DrawLine(pen, 8, 7, 20, 19);
+                z.DrawLine(pen, 8, 19, 20, 7);
+            };
+
+            panelMin.Paint += (sender, e) =>
+            {
+                Graphics z = e.Graphics;
+                Color myclor = Color.FromArgb(230, 179, 70);
+                var brush = new SolidBrush(myclor);
+                var pen = new Pen(Color.FromArgb(230, 179, 70));
+                z.DrawRectangle(pen, 7, 16, 12, 4);
+                z.FillRectangle(brush, 7, 16, 12, 4);
+            };
+
+            //Click Event
+            panelExit.Click += (sender, e) => Environment.Exit(0);
+            panelMin.Click += (sender, e) => WindowState = FormWindowState.Minimized;
+
+
+            //Mouse events
+            panelExit.MouseEnter += (sender, e) => panelExit.BackColor = Color.Red;
+            panelExit.MouseLeave += (sender, e) => panelExit.BackColor = Color.Transparent;
+
+            panelMin.MouseEnter += (sender, e) => panelMin.BackColor = Color.AliceBlue;
+            panelMin.MouseLeave += (sender, e) => panelMin.BackColor = Color.Transparent;
+        }
+
+        private void InitializeTheme() {
+            Theme dark = new Theme("Dark", Color.FromArgb(25, 25, 25), Color.Coral, Color.Transparent, Color.Transparent);
+            Theme light = new Theme("Light", Color.WhiteSmoke, Color.Black, Color.Transparent, Color.Transparent);
+            string theme;
+            try
+            {
+                theme = Functions.readCodeFromFile("DiscordBotSettings.data", SearchDirectory.RESOURCES, "THEME", '=');
+            }
+            catch { theme = null; }
+
+
+            if (theme == null || theme == "Light") light.SetTheme(this);
+            else dark.SetTheme(this);
+
+            darkToolStripMenuItem.Click += (sender, e) =>
+            {
+                dark.SetTheme(this);
+                Functions.WriteToSettings(dataFolder + "DiscordBotSettings.data", "THEME", "Dark", '=');
+            };
+            lightToolStripMenuItem.Click += (sender, e) =>
+            {
+                light.SetTheme(this);
+                Functions.WriteToSettings(dataFolder + "DiscordBotSettings.data", "THEME", "Light", '=');
             };
         }
     }

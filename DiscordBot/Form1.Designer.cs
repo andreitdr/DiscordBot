@@ -45,6 +45,11 @@
             this.languageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.downloadPluginsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.themeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.darkToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.lightToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.panelExit = new System.Windows.Forms.Panel();
+            this.panelMin = new System.Windows.Forms.Panel();
             this.groupBox1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -62,10 +67,11 @@
             this.groupBox1.Controls.Add(this.textBoxToken);
             this.groupBox1.Controls.Add(this.labelPrefix);
             this.groupBox1.Controls.Add(this.labelToken);
+            this.groupBox1.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.groupBox1.ForeColor = System.Drawing.SystemColors.ControlText;
             this.groupBox1.Location = new System.Drawing.Point(456, 28);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(319, 238);
+            this.groupBox1.Size = new System.Drawing.Size(321, 238);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Bot Information";
@@ -73,9 +79,11 @@
             // buttonManagePlugins
             // 
             this.buttonManagePlugins.AutoSize = true;
+            this.buttonManagePlugins.FlatAppearance.BorderSize = 0;
+            this.buttonManagePlugins.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonManagePlugins.Location = new System.Drawing.Point(220, 151);
             this.buttonManagePlugins.Name = "buttonManagePlugins";
-            this.buttonManagePlugins.Size = new System.Drawing.Size(93, 23);
+            this.buttonManagePlugins.Size = new System.Drawing.Size(95, 25);
             this.buttonManagePlugins.TabIndex = 7;
             this.buttonManagePlugins.Text = "Manage Plugins";
             this.buttonManagePlugins.UseVisualStyleBackColor = true;
@@ -94,9 +102,11 @@
             // buttonReloadPlugins
             // 
             this.buttonReloadPlugins.AutoSize = true;
+            this.buttonReloadPlugins.FlatAppearance.BorderSize = 0;
+            this.buttonReloadPlugins.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonReloadPlugins.Location = new System.Drawing.Point(25, 151);
             this.buttonReloadPlugins.Name = "buttonReloadPlugins";
-            this.buttonReloadPlugins.Size = new System.Drawing.Size(88, 23);
+            this.buttonReloadPlugins.Size = new System.Drawing.Size(88, 25);
             this.buttonReloadPlugins.TabIndex = 4;
             this.buttonReloadPlugins.Text = "Load Plugins";
             this.buttonReloadPlugins.UseVisualStyleBackColor = true;
@@ -113,6 +123,8 @@
             // 
             // buttonCopyToken
             // 
+            this.buttonCopyToken.FlatAppearance.BorderSize = 0;
+            this.buttonCopyToken.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonCopyToken.Location = new System.Drawing.Point(238, 48);
             this.buttonCopyToken.Name = "buttonCopyToken";
             this.buttonCopyToken.Size = new System.Drawing.Size(44, 23);
@@ -122,21 +134,23 @@
             // 
             // textBoxPrefix
             // 
+            this.textBoxPrefix.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.textBoxPrefix.Location = new System.Drawing.Point(85, 99);
             this.textBoxPrefix.MaxLength = 1;
             this.textBoxPrefix.Name = "textBoxPrefix";
             this.textBoxPrefix.ReadOnly = true;
-            this.textBoxPrefix.Size = new System.Drawing.Size(35, 20);
+            this.textBoxPrefix.Size = new System.Drawing.Size(35, 13);
             this.textBoxPrefix.TabIndex = 3;
             this.textBoxPrefix.TabStop = false;
             this.textBoxPrefix.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // textBoxToken
             // 
+            this.textBoxToken.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.textBoxToken.Location = new System.Drawing.Point(85, 50);
             this.textBoxToken.Name = "textBoxToken";
             this.textBoxToken.ReadOnly = true;
-            this.textBoxToken.Size = new System.Drawing.Size(148, 20);
+            this.textBoxToken.Size = new System.Drawing.Size(148, 13);
             this.textBoxToken.TabIndex = 2;
             this.textBoxToken.TabStop = false;
             this.textBoxToken.UseSystemPasswordChar = true;
@@ -161,6 +175,8 @@
             // 
             // buttonStartBot
             // 
+            this.buttonStartBot.FlatAppearance.BorderSize = 0;
+            this.buttonStartBot.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonStartBot.Location = new System.Drawing.Point(583, 281);
             this.buttonStartBot.Name = "buttonStartBot";
             this.buttonStartBot.Size = new System.Drawing.Size(75, 23);
@@ -190,8 +206,10 @@
             // 
             // menuStrip1
             // 
+            this.menuStrip1.BackColor = System.Drawing.Color.Transparent;
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.languageToolStripMenuItem,
+            this.themeToolStripMenuItem,
             this.downloadPluginsToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
@@ -219,17 +237,54 @@
             this.panel1.Size = new System.Drawing.Size(376, 347);
             this.panel1.TabIndex = 6;
             // 
+            // themeToolStripMenuItem
+            // 
+            this.themeToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.darkToolStripMenuItem,
+            this.lightToolStripMenuItem});
+            this.themeToolStripMenuItem.Name = "themeToolStripMenuItem";
+            this.themeToolStripMenuItem.Size = new System.Drawing.Size(55, 20);
+            this.themeToolStripMenuItem.Text = "Theme";
+            // 
+            // darkToolStripMenuItem
+            // 
+            this.darkToolStripMenuItem.Name = "darkToolStripMenuItem";
+            this.darkToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.darkToolStripMenuItem.Text = "Dark";
+            // 
+            // lightToolStripMenuItem
+            // 
+            this.lightToolStripMenuItem.Name = "lightToolStripMenuItem";
+            this.lightToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.lightToolStripMenuItem.Text = "Light";
+            // 
+            // panelExit
+            // 
+            this.panelExit.Location = new System.Drawing.Point(762, 0);
+            this.panelExit.Name = "panelExit";
+            this.panelExit.Size = new System.Drawing.Size(25, 25);
+            this.panelExit.TabIndex = 7;
+            // 
+            // panelMin
+            // 
+            this.panelMin.Location = new System.Drawing.Point(737, 0);
+            this.panelMin.Name = "panelMin";
+            this.panelMin.Size = new System.Drawing.Size(25, 25);
+            this.panelMin.TabIndex = 8;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(787, 387);
+            this.Controls.Add(this.panelMin);
+            this.Controls.Add(this.panelExit);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.labelConnectionStatus);
             this.Controls.Add(this.buttonStartBot);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.menuStrip1);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form1";
             this.Text = "Discord Bot";
@@ -262,6 +317,11 @@
 		private System.Windows.Forms.ToolStripMenuItem languageToolStripMenuItem;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.ToolStripMenuItem downloadPluginsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem themeToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem darkToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem lightToolStripMenuItem;
+        private System.Windows.Forms.Panel panelExit;
+        private System.Windows.Forms.Panel panelMin;
     }
 }
 
