@@ -36,15 +36,14 @@ namespace DiscordBot
         }
 
         private void DetectLanguage() {
-            if (!File.Exists(Path.Combine(dataFolder, "DiscordBotSettings.data")))
-            {
+            if (!File.Exists(Path.Combine(dataFolder, "DiscordBotSettings.data"))) {
                 LoadLanguage("English");
                 File.WriteAllText(Path.Combine(dataFolder, "DiscordBotSettings.data"), "BotLanguage=English");
                 return;
             }
 
             string language =
-                readCodeFromFile("DiscordBotSettings.data", SearchDirectory.RESOURCES, "BotLanguage", '=');
+                readCodeFromFile(Path.Combine(Functions.dataFolder, "DiscordBotSettings.data"), "BotLanguage", '=');
 
             if (language != null)
                 LoadLanguage(language);
@@ -53,11 +52,10 @@ namespace DiscordBot
 
         private void LoadLanguage(string name) {
             foreach (string file in Directory.EnumerateFiles(langFolder))
-                if (readCodeFromFile(new FileInfo(file).Name, SearchDirectory.LANGUAGE,
+                if (readCodeFromFile(file,
                     "LANGUAGE_NAME", '=') == name)
                     Language.ActiveLanguage = Language.CreateLanguageFromFile(file);
-            if (Language.ActiveLanguage == null)
-            {
+            if (Language.ActiveLanguage == null) {
                 new LanguageDownloadFirst().ShowDialog();
                 DetectLanguage();
                 return;
@@ -72,18 +70,15 @@ namespace DiscordBot
 
         private void LoadTexts() {
 
-            try
-            {
+            try {
                 textBoxToken.Text =
-                    readCodeFromFile("DiscordBotCore.data", SearchDirectory.RESOURCES, "BOT_TOKEN", '\t') ?? null;
+                    readCodeFromFile(Path.Combine(dataFolder, "DiscordBotCore.data"), "BOT_TOKEN", '\t') ?? null;
                 textBoxPrefix.Text =
-                    readCodeFromFile("DiscordBotCore.data", SearchDirectory.RESOURCES, "BOT_PREFIX", '\t') ?? null;
+                    readCodeFromFile(Path.Combine(dataFolder, "DiscordBotCore.data"), "BOT_PREFIX", '\t') ?? null;
             }
-            catch
-            {
+            catch {
                 Directory.CreateDirectory(@".\Data\Resources");
-                if (Language.ActiveLanguage == null)
-                {
+                if (Language.ActiveLanguage == null) {
                     MessageBox.Show("Invalid Token");
                     textBoxPrefix.ReadOnly = false;
                     textBoxToken.ReadOnly = false;
@@ -123,23 +118,19 @@ namespace DiscordBot
             InitializeFormControls();
             InitializeTheme();
 
-            FormClosing += (sender, e) =>
-            {
-                try
-                {
+            FormClosing += (sender, e) => {
+                try {
                     File.WriteAllText(Path.Combine(dataFolder, "DiscordBotSettings.data"),
                             "BotLanguage=" + Language.ActiveLanguage.LanguageName);
 
                 }
-                catch (Exception ex)
-                {
+                catch (Exception ex) {
                     Functions.WriteLogFile(ex.Message);
                 }
 
             };
 
-            buttonCopyToken.Click += async (sender, e) =>
-            {
+            buttonCopyToken.Click += async (sender, e) => {
                 if (labelClipboardCopy.Visible)
                     return;
                 Clipboard.SetText(textBoxToken.Text);
@@ -148,13 +139,11 @@ namespace DiscordBot
                 labelClipboardCopy.Visible = false;
             };
 
-            buttonStartBot.Click += async (sender, e) =>
-            {
+            buttonStartBot.Click += async (sender, e) => {
                 if (discordBooter != null)
                     return;
 
-                if (!textBoxPrefix.ReadOnly)
-                {
+                if (!textBoxPrefix.ReadOnly) {
                     string prefix = textBoxPrefix.Text;
                     if (prefix.Length != 1) return;
 
@@ -174,21 +163,16 @@ namespace DiscordBot
                 await discordBooter.Awake();
             };
 
-            buttonReloadPlugins.Click += async (sender, e) =>
-            {
-                if (labelConnectionStatus.Text != "ONLINE")
-                {
+            buttonReloadPlugins.Click += async (sender, e) => {
+                if (labelConnectionStatus.Text != "ONLINE") {
                     if (labelFailedLoadPlugin.Visible) return;
                     labelFailedLoadPlugin.Visible = true;
                     await Task.Delay(2000);
                     labelFailedLoadPlugin.Visible = false;
-                }
-                else
-                {
+                } else {
                     var loader = new PluginLoader(discordBooter.client);
                     richTextBox1.AppendText(Language.ActiveLanguage.LanguageWords["PLUGIN_LOADING_START"] + "\n");
-                    loader.onCMDLoad += (name, success, exception) =>
-                    {
+                    loader.onCMDLoad += (name, success, exception) => {
                         if (success)
                             richTextBox1.AppendText(
                                 Language.ActiveLanguage.FormatText(
@@ -200,8 +184,7 @@ namespace DiscordBot
                                     exception.Message) + "\n");
                     };
 
-                    loader.onADDLoad += (name, success, exception) =>
-                    {
+                    loader.onADDLoad += (name, success, exception) => {
                         if (success)
                             richTextBox1.AppendText(
                                 Language.ActiveLanguage.FormatText(
@@ -213,8 +196,7 @@ namespace DiscordBot
                                     exception.Message) + "\n");
                     };
 
-                    loader.onEVELoad += (name, success, exception) =>
-                    {
+                    loader.onEVELoad += (name, success, exception) => {
                         if (success)
                             richTextBox1.AppendText(
                                 Language.ActiveLanguage.FormatText(
@@ -226,8 +208,7 @@ namespace DiscordBot
                                     exception.Message) + "\n");
                     };
 
-                    buttonManagePlugins.Click += (o, args) =>
-                    {
+                    buttonManagePlugins.Click += (o, args) => {
                         buttonManagePlugins.Enabled = false;
                         new Plugins_Manager(discordBooter.client, ForeColor, BackColor).ShowDialog();
                         buttonManagePlugins.Enabled = true;
@@ -238,21 +219,18 @@ namespace DiscordBot
                     buttonReloadPlugins.Enabled = false;
                 }
             };
-            languageToolStripMenuItem.Click += (sender, e) =>
-            {
+            languageToolStripMenuItem.Click += (sender, e) => {
                 languageToolStripMenuItem.DropDownItems.Clear();
 
-                foreach (string file in Directory.EnumerateFiles(langFolder))
-                {
-                    string langName = readCodeFromFile(new FileInfo(file).Name, SearchDirectory.LANGUAGE,
+                foreach (string file in Directory.EnumerateFiles(langFolder)) {
+                    string langName = readCodeFromFile(file,
                         "LANGUAGE_NAME", '=');
                     ToolStripItem ms = languageToolStripMenuItem.DropDownItems.Add(langName);
                     ms.Click += (_, __) => { LoadLanguageFile(file); };
                 }
 
                 ToolStripItem menuitem = languageToolStripMenuItem.DropDownItems.Add("Download new Language");
-                menuitem.Click += (_, __) =>
-                {
+                menuitem.Click += (_, __) => {
                     new LanguageList().ShowDialog();
                 };
 
@@ -260,20 +238,17 @@ namespace DiscordBot
                 languageToolStripMenuItem.ShowDropDown();
             };
 
-            downloadPluginsToolStripMenuItem.Click += (sender, e) =>
-            {
+            downloadPluginsToolStripMenuItem.Click += (sender, e) => {
                 new PluginsList().ShowDialog();
             };
         }
 
         private void InitializeFormControls() {
 
-            menuStrip1.MouseDown += (sender, e) =>
-            {
+            menuStrip1.MouseDown += (sender, e) => {
                 mousedownpoint = new Point(e.X, e.Y);
             };
-            menuStrip1.MouseMove += (sender, e) =>
-            {
+            menuStrip1.MouseMove += (sender, e) => {
                 if (mousedownpoint.IsEmpty)
                     return;
                 Location = new Point(Location.X + (e.X - mousedownpoint.X), Location.Y + (e.Y - mousedownpoint.Y));
@@ -281,8 +256,7 @@ namespace DiscordBot
             menuStrip1.MouseUp += (sender, e) => { mousedownpoint = Point.Empty; };
 
             //Design
-            panelExit.Paint += (sender, e) =>
-            {
+            panelExit.Paint += (sender, e) => {
                 Graphics z = e.Graphics;
                 var pen = new Pen(Color.FromArgb(230, 179, 70));
                 z.DrawLine(pen, 7, 7, 19, 19);
@@ -291,8 +265,7 @@ namespace DiscordBot
                 z.DrawLine(pen, 8, 19, 20, 7);
             };
 
-            panelMin.Paint += (sender, e) =>
-            {
+            panelMin.Paint += (sender, e) => {
                 Graphics z = e.Graphics;
                 Color myclor = Color.FromArgb(230, 179, 70);
                 var brush = new SolidBrush(myclor);
@@ -318,9 +291,8 @@ namespace DiscordBot
             Theme dark = new Theme("Dark", Color.FromArgb(25, 25, 25), Color.Coral, Color.Transparent, Color.Transparent);
             Theme light = new Theme("Light", Color.WhiteSmoke, Color.Black, Color.Transparent, Color.Transparent);
             string theme;
-            try
-            {
-                theme = Functions.readCodeFromFile("DiscordBotSettings.data", SearchDirectory.RESOURCES, "THEME", '=');
+            try {
+                theme = Functions.readCodeFromFile(Path.Combine(dataFolder, "DiscordBotSettings.data"), "THEME", '=');
             }
             catch { theme = null; }
 
@@ -328,13 +300,11 @@ namespace DiscordBot
             if (theme == null || theme == "Light") light.SetTheme(this);
             else dark.SetTheme(this);
 
-            darkToolStripMenuItem.Click += (sender, e) =>
-            {
+            darkToolStripMenuItem.Click += (sender, e) => {
                 dark.SetTheme(this);
                 Functions.WriteToSettings(dataFolder + "DiscordBotSettings.data", "THEME", "Dark", '=');
             };
-            lightToolStripMenuItem.Click += (sender, e) =>
-            {
+            lightToolStripMenuItem.Click += (sender, e) => {
                 light.SetTheme(this);
                 Functions.WriteToSettings(dataFolder + "DiscordBotSettings.data", "THEME", "Light", '=');
             };

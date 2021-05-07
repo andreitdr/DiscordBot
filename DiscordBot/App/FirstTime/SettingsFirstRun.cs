@@ -25,47 +25,37 @@ namespace DiscordBot.App.FirstTime
 
         private void FormLoad() {
 
-            if (File.Exists(@".\Data\Resources\DiscordBotCore.data"))
-            {
-                textBox1.Text = Functions.readCodeFromFile("DiscordBotCore.data", SearchDirectory.RESOURCES, "BOT_TOKEN", '\t');
-                textBox2.Text = Functions.readCodeFromFile("DiscordBotCore.data", SearchDirectory.RESOURCES, "BOT_PREFIX", '\t');
-            }
-            else
-            {
+            if (File.Exists(@".\Data\Resources\DiscordBotCore.data")) {
+                textBox1.Text = Functions.readCodeFromFile(Path.Combine(Functions.dataFolder, "DiscordBotCore.data"), "BOT_TOKEN", '\t');
+                textBox2.Text = Functions.readCodeFromFile(Path.Combine(Functions.dataFolder, "DiscordBotCore.data"), "BOT_PREFIX", '\t');
+            } else {
                 textBox1.Clear();
                 textBox2.Clear();
             }
-            foreach (var file in Directory.EnumerateFiles(Functions.langFolder))
-            {
-                string name = new FileInfo(file).Name;
-                string langName = Functions.readCodeFromFile(name, SearchDirectory.LANGUAGE, "LANGUAGE_NAME", '=');
+            foreach (var file in Directory.EnumerateFiles(Functions.langFolder)) {
+                string langName = Functions.readCodeFromFile(file, "LANGUAGE_NAME", '=');
                 comboBox1.Items.Add(langName);
             }
 
-            if (comboBox1.Items.Count == 0)
-            {
+            if (comboBox1.Items.Count == 0) {
                 DialogResult = DialogResult.Abort;
                 this.Close();
             }
 
 
 
-            button1.Click += (sender, e) =>
-            {
-                if (textBox1.Text.Length < 50)
-                {
+            button1.Click += (sender, e) => {
+                if (textBox1.Text.Length < 50) {
                     MessageBox.Show("Invalid discord bot token !", "Discord Bot", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 
-                if (textBox2.Text.Length != 1)
-                {
+                if (textBox2.Text.Length != 1) {
                     MessageBox.Show("Invalid Discord bot prefix !", "Discord Bot", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 
-                if (comboBox1.SelectedItem.ToString() is null)
-                {
+                if (comboBox1.SelectedItem.ToString() is null) {
                     MessageBox.Show("Invalid language selected", "Discord Bot", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
@@ -77,8 +67,7 @@ namespace DiscordBot.App.FirstTime
                 this.Close();
             };
 
-            button2.Click += (sender, e) =>
-            {
+            button2.Click += (sender, e) => {
                 Process.Start("https://discord.com/developers/applications/");
             };
         }

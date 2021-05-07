@@ -14,13 +14,5 @@ namespace DiscordBotPluginManager
         public static bool hasPermission(this SocketGuildUser user, GuildPermission permission)
                                 => user.Roles.Where(role => role.hasPermission(permission)).Any();
 
-        /*        {
-                                var roles = user.Roles;
-
-                                foreach (var role in roles)
-                                    if (role.hasPermission(permission))
-                                        return true;
-                                return false;
-                }*/
     }
 }
