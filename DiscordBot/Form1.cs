@@ -30,6 +30,7 @@ namespace DiscordBot
             Directory.CreateDirectory(langFolder);
             Directory.CreateDirectory(errFolder);
             Directory.CreateDirectory(logFolder);
+            Directory.CreateDirectory(pakFolder);
             DetectLanguage();
             LoadTexts();
             Load += (sender, e) => FormLoaded();
@@ -117,6 +118,7 @@ namespace DiscordBot
 
             InitializeFormControls();
             InitializeTheme();
+            initializeFiles();
 
             FormClosing += (sender, e) => {
                 try {
@@ -173,39 +175,56 @@ namespace DiscordBot
                     var loader = new PluginLoader(discordBooter.client);
                     richTextBox1.AppendText(Language.ActiveLanguage.LanguageWords["PLUGIN_LOADING_START"] + "\n");
                     loader.onCMDLoad += (name, success, exception) => {
-                        if (success)
+                        if (success) {
+                            richTextBox1.AppendText(Language.ActiveLanguage.FormatText(
+                                  Language.ActiveLanguage.LanguageWords["PLUGIN_LOAD_SUCCESS"], name) + "\n");
+                            WriteLogFile(Language.ActiveLanguage.FormatText(
+                                    Language.ActiveLanguage.LanguageWords["PLUGIN_LOAD_SUCCESS"], name));
+                        } else {
                             richTextBox1.AppendText(
-                                Language.ActiveLanguage.FormatText(
-                                    Language.ActiveLanguage.LanguageWords["PLUGIN_LOAD_SUCCESS"], name) + "\n");
-                        else
-                            richTextBox1.AppendText(
-                                Language.ActiveLanguage.FormatText(
-                                    Language.ActiveLanguage.LanguageWords["PLUGIN_LOAD_FAIL"], name,
-                                    exception.Message) + "\n");
+                              Language.ActiveLanguage.FormatText(
+                                  Language.ActiveLanguage.LanguageWords["PLUGIN_LOAD_FAIL"], name,
+                                  exception.Message) + "\n");
+                            WriteLogFile(Language.ActiveLanguage.FormatText(
+                                  Language.ActiveLanguage.LanguageWords["PLUGIN_LOAD_FAIL"], name,
+                                  exception.Message));
+                        }
+
+
                     };
 
                     loader.onADDLoad += (name, success, exception) => {
-                        if (success)
+                        if (success) {
+                            richTextBox1.AppendText(Language.ActiveLanguage.FormatText(
+                                  Language.ActiveLanguage.LanguageWords["ADDON_LOAD_SUCCESS"], name) + "\n");
+                            WriteLogFile(Language.ActiveLanguage.FormatText(
+                                    Language.ActiveLanguage.LanguageWords["ADDON_LOAD_SUCCESS"], name));
+                        } else {
                             richTextBox1.AppendText(
-                                Language.ActiveLanguage.FormatText(
-                                    Language.ActiveLanguage.LanguageWords["ADDON_LOAD_SUCCESS"], name) + "\n");
-                        else
-                            richTextBox1.AppendText(
-                                Language.ActiveLanguage.FormatText(
-                                    Language.ActiveLanguage.LanguageWords["ADDON_LOAD_FAIL"], name,
-                                    exception.Message) + "\n");
+                              Language.ActiveLanguage.FormatText(
+                                  Language.ActiveLanguage.LanguageWords["ADDON_LOAD_FAIL"], name,
+                                  exception.Message) + "\n");
+                            WriteLogFile(Language.ActiveLanguage.FormatText(
+                                  Language.ActiveLanguage.LanguageWords["ADDON_LOAD_FAIL"], name,
+                                  exception.Message));
+                        }
                     };
 
                     loader.onEVELoad += (name, success, exception) => {
-                        if (success)
+                        if (success) {
+                            richTextBox1.AppendText(Language.ActiveLanguage.FormatText(
+                                  Language.ActiveLanguage.LanguageWords["EVENT_LOAD_SUCCESS"], name) + "\n");
+                            WriteLogFile(Language.ActiveLanguage.FormatText(
+                                    Language.ActiveLanguage.LanguageWords["EVENT_LOAD_SUCCESS"], name));
+                        } else {
                             richTextBox1.AppendText(
-                                Language.ActiveLanguage.FormatText(
-                                    Language.ActiveLanguage.LanguageWords["EVENT_LOAD_SUCCESS"], name) + "\n");
-                        else
-                            richTextBox1.AppendText(
-                                Language.ActiveLanguage.FormatText(
-                                    Language.ActiveLanguage.LanguageWords["EVENT_LOAD_FAIL"], name,
-                                    exception.Message) + "\n");
+                              Language.ActiveLanguage.FormatText(
+                                  Language.ActiveLanguage.LanguageWords["EVENT_LOAD_FAIL"], name,
+                                  exception.Message) + "\n");
+                            WriteLogFile(Language.ActiveLanguage.FormatText(
+                                  Language.ActiveLanguage.LanguageWords["EVENT_LOAD_FAIL"], name,
+                                  exception.Message));
+                        }
                     };
 
                     buttonManagePlugins.Click += (o, args) => {
@@ -219,6 +238,7 @@ namespace DiscordBot
                     buttonReloadPlugins.Enabled = false;
                 }
             };
+
             languageToolStripMenuItem.Click += (sender, e) => {
                 languageToolStripMenuItem.DropDownItems.Clear();
 
@@ -241,6 +261,11 @@ namespace DiscordBot
             downloadPluginsToolStripMenuItem.Click += (sender, e) => {
                 new PluginsList().ShowDialog();
             };
+        }
+
+        private void initializeFiles() {
+            if (File.Exists(Path.Combine(logFolder, "Log.txt")))
+                File.Delete(Path.Combine(logFolder, "Log.txt"));
         }
 
         private void InitializeFormControls() {

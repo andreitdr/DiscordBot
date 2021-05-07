@@ -4,6 +4,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -41,6 +42,13 @@ namespace DiscordBotPluginManager
         /// </summary>
         private static readonly char commentMark = '#';
 
+        /// <summary>
+        /// Read data from file
+        /// </summary>
+        /// <param name="fileName">File name</param>
+        /// <param name="Code">Setting name</param>
+        /// <param name="separator">Separator between setting key code and its value</param>
+        /// <returns>The value of the specified setting key code in the specified file (STRING)</returns>
         public static string readCodeFromFile(string fileName, string Code, char separator)
           => File.ReadAllLines(fileName)
             .Where(p => p.StartsWith(Code) && !p.StartsWith(commentMark.ToString()))
@@ -93,8 +101,29 @@ namespace DiscordBotPluginManager
                         }
                     }
             }
+            return null;
+        }
 
+        public static async Task<string> ReadFromPakAsync(string FileName, string archFile) {
+            archFile = Path.Combine(pakFolder, archFile);
+            Directory.CreateDirectory(pakFolder);
+            if (!File.Exists(archFile)) {
+                throw new Exception("Failed to load file !");
+            }
+            var fs = new FileStream(archFile, FileMode.Open);
+            var zip = new ZipArchive(fs, ZipArchiveMode.Read);
+            foreach (var entry in zip.Entries) {
+                if (entry.Name == FileName || entry.FullName == FileName) {
+                    Stream s = entry.Open();
+                    StreamReader reader = new StreamReader(s);
+                    string text = await reader.ReadToEndAsync();
+                    reader.Close();
+                    s.Close();
+                    fs.Close();
 
+                    return text;
+                }
+            }
             return null;
         }
 
