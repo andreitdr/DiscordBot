@@ -14,29 +14,25 @@ namespace DiscordBot.App.FirstTime
 {
     public partial class LanguageDownloadFirst : Form
     {
-        public LanguageDownloadFirst()
-        {
+        public LanguageDownloadFirst() {
             InitializeComponent();
 
             Load += (sender, e) => FormLoad();
         }
 
         private bool closeForced = true;
-        private void FormLoad()
-        {
+        private void FormLoad() {
 
-            FormClosing += (sender, e) =>
-            {
+            FormClosing += (sender, e) => {
                 if (closeForced) Environment.Exit(0);
 
             };
 
 
-            button1.Click += (sender, e) =>
-            {
+            button1.Click += (sender, e) => {
                 this.Hide();
 
-                if (new SettingsFirstRun().ShowDialog() == DialogResult.OK) { 
+                if (new SettingsFirstRun().ShowDialog() == DialogResult.OK) {
                     closeForced = false;
                     this.Close();
                     return;
@@ -44,8 +40,7 @@ namespace DiscordBot.App.FirstTime
                 this.Close();
             };
 
-            button2.Click += (sender, e) =>
-            {
+            button2.Click += (sender, e) => {
                 panel1.Controls.Clear();
 
                 var form = new LanguageList();

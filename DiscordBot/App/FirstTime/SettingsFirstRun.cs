@@ -22,7 +22,6 @@ namespace DiscordBot.App.FirstTime
 
             Load += (sender, e) => FormLoad();
         }
-
         private void FormLoad() {
 
             if (File.Exists(@".\Data\Resources\DiscordBotCore.data")) {

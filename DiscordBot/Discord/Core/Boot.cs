@@ -77,7 +77,7 @@ namespace DiscordBot.Discord.Core
 				loggedInLabel.ForeColor = Color.Gold;
 			}));
 			WriteLogFile("The bot has been logged in at " + DateTime.Now.ToShortDateString() + " (" +
-			             DateTime.Now.ToShortTimeString() + ")");
+						 DateTime.Now.ToShortTimeString() + ")");
 			return Task.CompletedTask;
 		}
 
