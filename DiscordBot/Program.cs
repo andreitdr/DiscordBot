@@ -147,22 +147,53 @@ namespace DiscordBot
 			}
 		}
 
+
 		private static async Task HandleInput(string[] args)
 		{
-			Console.ForegroundColor = ConsoleColor.White;
-			int len                               = args.Length;
-			for (var i = 0; i < len; i++) args[i] = args[i].ToLower();
-			if (len == 1)
-				switch (args[0])
+			int len = args.Length;
+			if (len == 0 || args[0] != "--exec" && args[0] != "--execute")
+			{
+				Application.Run(new Form1());
+				return;
+			}
+
+			Console.ForegroundColor = ConsoleColor.DarkYellow;
+			Console.WriteLine("Execute command interface noGUI\n\n");
+			Console.WriteLine(
+				"\tCommand name\t\t\t\tDescription\n"                       +
+				"-- help | -help\t\t ------ \tDisplay the help message\n"   +
+				"--reset-full\t\t ------ \tReset all files (clear files)\n" +
+				"--reset-settings\t ------ \tReset only bot settings\n"     +
+				"--reset-logs\t\t ------ \tClear up the output folder\n"    +
+				"--set-token [token]\t ------ \tSet the bot token\n"        +
+				"--set-prefix [prefix]\t ------ \tSet the bot prefix\n"     +
+				"exit\t\t\t ------ \tClose the application"
+			);
+			while (true)
+			{
+				Console.ForegroundColor = ConsoleColor.White;
+				Console.Write("> ");
+				string[] message = Console.ReadLine().Split(' ');
+
+				switch (message[0])
 				{
 					case "--reset-settings":
 						await ResetSettings();
-
+						Console.WriteLine("Successfully reseted all settings !");
 						break;
 					case "--help":
 					case "-help":
+						Console.ForegroundColor = ConsoleColor.DarkYellow;
 						Console.WriteLine(
-							"-- help | -help \n--reset-full\n--reset-settings\n--set-token [token]\n--set-prefix [prefix]");
+							"\tCommand name\t\t\t\tDescription\n"                       +
+							"-- help | -help\t\t ------ \tDisplay the help message\n"   +
+							"--reset-full\t\t ------ \tReset all files (clear files)\n" +
+							"--reset-settings\t ------ \tReset only bot settings\n"     +
+							"--reset-logs\t\t ------ \tClear up the output folder\n"    +
+							"--set-token [token]\t ------ \tSet the bot token\n"        +
+							"--set-prefix [prefix]\t ------ \tSet the bot prefix\n"     +
+							"exit\t\t\t ------ \tClose the application"
+						);
 						break;
 					case "--nogui":
 						Boot b = await StartNoGUI();
@@ -176,61 +207,22 @@ namespace DiscordBot
 						await ClearFolder(".\\Data\\Plugins\\Addons");
 						await ClearFolder(".\\Data\\Plugins\\Commands");
 						await ClearFolder(".\\Data\\Plugins\\Events");
-
+						Console.WriteLine("Successfully cleared all folders");
 						break;
-
-					default:
-						Application.Run(new Form1());
+					case "--reset-logs":
+						await ClearFolder(".\\Output\\Logs");
+						await ClearFolder(".\\Output\\Errors");
+						Console.WriteLine("Successfully cleard logs folder");
 						break;
-				}
-
-			else if (len == 2)
-				switch (args[0])
-				{
-					case "--set-token":
-						ReplaceText(@".\Data\Resources\DiscordBotCore.data", "BOT_TOKEN", args[1]);
-
-						break;
-					case "--set-prefix":
-						ReplaceText(@".\Data\Resources\DiscordBotCore.data", "BOT_PREFIX", args[1]);
-
+					case "--exit":
+					case "exit":
+						Environment.Exit(0);
 						break;
 					default:
-						Application.Run(new Form1());
+						Console.WriteLine("Failed to execute command " + message[0]);
 						break;
 				}
-
-			else if (len == 4)
-				switch (args[0])
-				{
-					case "--set-token":
-						switch (args[2])
-						{
-							case "--set-prefix":
-								ReplaceText(@".\Data\Resources\DiscordBotCore.data", "BOT_TOKEN",  args[1]);
-								ReplaceText(@".\Data\Resources\DiscordBotCore.data", "BOT_PREFIX", args[3]);
-
-								break;
-						}
-
-						break;
-					case "--set-ptefix":
-						switch (args[2])
-						{
-							case "--set-token":
-								ReplaceText(@".\Data\Resources\DiscordBotCore.data", "BOT_TOKEN",  args[1]);
-								ReplaceText(@".\Data\Resources\DiscordBotCore.data", "BOT_PREFIX", args[3]);
-
-								break;
-						}
-
-						break;
-					default:
-						Application.Run(new Form1());
-						break;
-				}
-			else
-				Application.Run(new Form1());
+			}
 		}
 	}
 }
