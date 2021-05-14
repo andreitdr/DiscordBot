@@ -36,7 +36,22 @@ namespace DiscordBot.Discord.Core
 			rtb           = null;
 		}
 
-		public async Task Awake(bool noGUI = false)
+		public async Task AwakeNoGUI()
+		{
+			client  = new DiscordSocketClient();
+			service = new CommandService();
+
+			CommonTasks();
+
+
+			await client.LoginAsync(TokenType.Bot, botToken);
+			await client.StartAsync();
+
+			commandServiceHandler = new CommandHandler(client, service, botPrefix[0]);
+			await commandServiceHandler.InstallCommandsAsync();
+		}
+
+		public async Task Awake()
 		{
 			client  = new DiscordSocketClient();
 			service = new CommandService();
@@ -50,14 +65,14 @@ namespace DiscordBot.Discord.Core
 			commandServiceHandler = new CommandHandler(client, service, botPrefix[0]);
 			await commandServiceHandler.InstallCommandsAsync();
 
-			if (!noGUI)
-				await Task.Delay(-1);
+			await Task.Delay(-1);
 		}
 
 		public async Task ShutDown()
 		{
-			if (client != null)
-				await client.StopAsync();
+			if (client == null) return;
+
+			await client.StopAsync();
 		}
 
 		private void CommonTasks()
@@ -109,19 +124,35 @@ namespace DiscordBot.Discord.Core
 				case LogSeverity.Critical:
 					WriteErrFile(message.Message);
 					if (rtb != null)
+					{
 						rtb.Invoke(new MethodInvoker(delegate
 						{
 							rtb.AppendText("[ERROR] " + message.Message + "\n");
 						}));
-					else Console.WriteLine("[ERROR] " + message.Message);
+					}
+					else
+					{
+						Console.ForegroundColor = ConsoleColor.Red;
+						Console.WriteLine("[ERROR] " + message.Message);
+						Console.ForegroundColor = ConsoleColor.White;
+					}
+
 					break;
 
 				case LogSeverity.Info:
 				case LogSeverity.Debug:
 					WriteLogFile(message.Message);
 					if (rtb != null)
+					{
 						rtb.Invoke(new MethodInvoker(delegate { rtb.AppendText("[INFO] " + message.Message + "\n"); }));
-					else Console.WriteLine("[INFO] " + message.Message);
+					}
+					else
+					{
+						Console.ForegroundColor = ConsoleColor.Cyan;
+						Console.WriteLine("[INFO] " + message.Message);
+						Console.ForegroundColor = ConsoleColor.White;
+					}
+
 					break;
 			}
 

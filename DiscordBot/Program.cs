@@ -37,16 +37,13 @@ namespace DiscordBot
 			while (true)
 			{
 				string[] data = Console.ReadLine().Split(' ');
+				if (data[0].Length < 2) continue;
 				switch (data[0])
 				{
 					case "/shutdown":
 					case "/sd":
 						if (discordbooter.client.ConnectionState == ConnectionState.Connected)
-							await discordbooter.ShutDown().ContinueWith(t =>
-							{
-								Console.WriteLine("[INFO] Disconnected !");
-								Environment.Exit(0);
-							});
+							await discordbooter.ShutDown().ContinueWith(t => { Environment.Exit(0); });
 
 						break;
 					case "/loadplugins":
@@ -54,27 +51,41 @@ namespace DiscordBot
 						var loader = new PluginLoader(discordbooter.client);
 						loader.onADDLoad += (name, success, exception) =>
 						{
+							Console.ForegroundColor = ConsoleColor.Green;
 							if (success) Console.WriteLine("[ADDON] Successfully loaded addon : " + name);
 							else
 								Console.WriteLine("[ADDON] Failed to load ADDON : " + name + " because " +
 												  exception.Message);
+							Console.ForegroundColor = ConsoleColor.White;
 						};
 						loader.onCMDLoad += (name, success, exception) =>
 						{
+							Console.ForegroundColor = ConsoleColor.Green;
 							if (success) Console.WriteLine("[CMD] Successfully loaded addon : " + name);
 							else
 								Console.WriteLine("[CMD] Failed to load ADDON : " + name + " because " +
 												  exception.Message);
+							Console.ForegroundColor = ConsoleColor.White;
 						};
 						loader.onEVELoad += (name, success, exception) =>
 						{
+							Console.ForegroundColor = ConsoleColor.Green;
 							if (success) Console.WriteLine("[EVENT] Successfully loaded addon : " + name);
 							else
 								Console.WriteLine("[EVENT] Failed to load ADDON : " + name + " because " +
 												  exception.Message);
+							Console.ForegroundColor = ConsoleColor.White;
 						};
 						loader.LoadPlugins();
 						break;
+					case "/help":
+						Console.ForegroundColor = ConsoleColor.DarkYellow;
+						Console.WriteLine(
+							"/lp | /loadplugins -> load all plugins\n/sd | /shutdown -> close connectong to the server (stop bot)");
+						Console.ForegroundColor = ConsoleColor.White;
+						break;
+					default:
+						goto case "/help";
 				}
 			}
 		}
@@ -82,16 +93,22 @@ namespace DiscordBot
 		private static async Task<Boot> StartNoGUI()
 		{
 			Console.Clear();
+			Console.ForegroundColor = ConsoleColor.DarkYellow;
+			Console.WriteLine("Discord BOT\n\nCreated by: Wizzy\nDiscord: Wizzy#9181\nCommands:");
+			Console.WriteLine(
+				"/lp | /loadplugins -> load all plugins\n/sd | /shutdown -> close connectong to the server (stop bot)");
+			Console.WriteLine("\n\n");
+			Console.ForegroundColor = ConsoleColor.White;
+
 			string token =
 				Functions.readCodeFromFile(Path.Combine(Functions.dataFolder, "DiscordBotCore.data"), "BOT_TOKEN",
 										   '\t');
 			string prefix = Functions.readCodeFromFile(Path.Combine(Functions.dataFolder, "DiscordBotCore.data"),
 													   "BOT_PREFIX",
 													   '\t');
-			Console.WriteLine("Starting bot with " + token + " " + prefix);
 			var discordbooter = new Boot(token, prefix);
 
-			await discordbooter.Awake(true);
+			await discordbooter.AwakeNoGUI();
 
 			return discordbooter;
 		}
@@ -132,6 +149,7 @@ namespace DiscordBot
 
 		private static async Task HandleInput(string[] args)
 		{
+			Console.ForegroundColor = ConsoleColor.White;
 			int len                               = args.Length;
 			for (var i = 0; i < len; i++) args[i] = args[i].ToLower();
 			if (len == 1)
