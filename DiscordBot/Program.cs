@@ -2,6 +2,9 @@
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Discord;
+using DiscordBot.Discord.Core;
+using DiscordBotPluginManager;
 
 namespace DiscordBot
 {
@@ -11,19 +14,16 @@ namespace DiscordBot
 		///     The main entry point for the application.
 		/// </summary>
 		[STAThread]
+		[Obsolete]
 		public static void Main(string[] args)
 		{
+			Application.EnableVisualStyles();
+			Application.SetCompatibleTextRenderingDefault(false);
 			AppDomain.CurrentDomain.AppendPrivatePath("Data\\lib");
 			if (args.Length == 0)
-			{
-				Application.EnableVisualStyles();
-				Application.SetCompatibleTextRenderingDefault(false);
 				Application.Run(new Form1());
-			}
 			else
-			{
 				HandleInput(args).Wait();
-			}
 		}
 
 		private static async Task ResetSettings()
@@ -32,9 +32,68 @@ namespace DiscordBot
 			foreach (string file in files) File.Delete(file);
 		}
 
-		private static void StartNoGUI()
+		private static async Task NoGUI(Boot discordbooter)
 		{
-			Console.WriteLine("Not implemented");
+			while (true)
+			{
+				string[] data = Console.ReadLine().Split(' ');
+				switch (data[0])
+				{
+					case "/shutdown":
+					case "/sd":
+						if (discordbooter.client.ConnectionState == ConnectionState.Connected)
+							await discordbooter.ShutDown().ContinueWith(t =>
+							{
+								Console.WriteLine("[INFO] Disconnected !");
+								Environment.Exit(0);
+							});
+
+						break;
+					case "/loadplugins":
+					case "/lp":
+						var loader = new PluginLoader(discordbooter.client);
+						loader.onADDLoad += (name, success, exception) =>
+						{
+							if (success) Console.WriteLine("[ADDON] Successfully loaded addon : " + name);
+							else
+								Console.WriteLine("[ADDON] Failed to load ADDON : " + name + " because " +
+												  exception.Message);
+						};
+						loader.onCMDLoad += (name, success, exception) =>
+						{
+							if (success) Console.WriteLine("[CMD] Successfully loaded addon : " + name);
+							else
+								Console.WriteLine("[CMD] Failed to load ADDON : " + name + " because " +
+												  exception.Message);
+						};
+						loader.onEVELoad += (name, success, exception) =>
+						{
+							if (success) Console.WriteLine("[EVENT] Successfully loaded addon : " + name);
+							else
+								Console.WriteLine("[EVENT] Failed to load ADDON : " + name + " because " +
+												  exception.Message);
+						};
+						loader.LoadPlugins();
+						break;
+				}
+			}
+		}
+
+		private static async Task<Boot> StartNoGUI()
+		{
+			Console.Clear();
+			string token =
+				Functions.readCodeFromFile(Path.Combine(Functions.dataFolder, "DiscordBotCore.data"), "BOT_TOKEN",
+										   '\t');
+			string prefix = Functions.readCodeFromFile(Path.Combine(Functions.dataFolder, "DiscordBotCore.data"),
+													   "BOT_PREFIX",
+													   '\t');
+			Console.WriteLine("Starting bot with " + token + " " + prefix);
+			var discordbooter = new Boot(token, prefix);
+
+			await discordbooter.Awake(true);
+
+			return discordbooter;
 		}
 
 		private static async Task ClearFolder(string d)
@@ -76,16 +135,20 @@ namespace DiscordBot
 			int len                               = args.Length;
 			for (var i = 0; i < len; i++) args[i] = args[i].ToLower();
 			if (len == 1)
-			{
 				switch (args[0])
 				{
 					case "--reset-settings":
 						await ResetSettings();
-						Console.ReadLine();
+
+						break;
+					case "--help":
+					case "-help":
+						Console.WriteLine(
+							"-- help | -help \n--reset-full\n--reset-settings\n--set-token [token]\n--set-prefix [prefix]");
 						break;
 					case "--nogui":
-						StartNoGUI();
-						Console.ReadLine();
+						Boot b = await StartNoGUI();
+						await NoGUI(b);
 						break;
 					case "--reset-full":
 						await ClearFolder(".\\Data\\Resources\\");
@@ -95,39 +158,31 @@ namespace DiscordBot
 						await ClearFolder(".\\Data\\Plugins\\Addons");
 						await ClearFolder(".\\Data\\Plugins\\Commands");
 						await ClearFolder(".\\Data\\Plugins\\Events");
-						Console.ReadLine();
+
 						break;
 
 					default:
-						Application.EnableVisualStyles();
-						Application.SetCompatibleTextRenderingDefault(false);
 						Application.Run(new Form1());
 						break;
 				}
-			}
 
 			else if (len == 2)
-			{
 				switch (args[0])
 				{
 					case "--set-token":
 						ReplaceText(@".\Data\Resources\DiscordBotCore.data", "BOT_TOKEN", args[1]);
-						Console.ReadLine();
+
 						break;
 					case "--set-prefix":
 						ReplaceText(@".\Data\Resources\DiscordBotCore.data", "BOT_PREFIX", args[1]);
-						Console.ReadLine();
+
 						break;
 					default:
-						Application.EnableVisualStyles();
-						Application.SetCompatibleTextRenderingDefault(false);
 						Application.Run(new Form1());
 						break;
 				}
-			}
 
 			else if (len == 4)
-			{
 				switch (args[0])
 				{
 					case "--set-token":
@@ -136,7 +191,7 @@ namespace DiscordBot
 							case "--set-prefix":
 								ReplaceText(@".\Data\Resources\DiscordBotCore.data", "BOT_TOKEN",  args[1]);
 								ReplaceText(@".\Data\Resources\DiscordBotCore.data", "BOT_PREFIX", args[3]);
-								Console.ReadLine();
+
 								break;
 						}
 
@@ -147,24 +202,17 @@ namespace DiscordBot
 							case "--set-token":
 								ReplaceText(@".\Data\Resources\DiscordBotCore.data", "BOT_TOKEN",  args[1]);
 								ReplaceText(@".\Data\Resources\DiscordBotCore.data", "BOT_PREFIX", args[3]);
-								Console.ReadLine();
+
 								break;
 						}
 
 						break;
 					default:
-						Application.EnableVisualStyles();
-						Application.SetCompatibleTextRenderingDefault(false);
 						Application.Run(new Form1());
 						break;
 				}
-			}
 			else
-			{
-				Application.EnableVisualStyles();
-				Application.SetCompatibleTextRenderingDefault(false);
 				Application.Run(new Form1());
-			}
 		}
 	}
 }

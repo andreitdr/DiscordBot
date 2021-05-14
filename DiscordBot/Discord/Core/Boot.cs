@@ -27,7 +27,16 @@ namespace DiscordBot.Discord.Core
 			this.botPrefix     = botPrefix;
 		}
 
-		public async Task Awake()
+		public Boot(string botToken, string botPrefix)
+		{
+			this.botPrefix = botPrefix;
+			this.botToken  = botToken;
+
+			loggedInLabel = null;
+			rtb           = null;
+		}
+
+		public async Task Awake(bool noGUI = false)
 		{
 			client  = new DiscordSocketClient();
 			service = new CommandService();
@@ -41,7 +50,14 @@ namespace DiscordBot.Discord.Core
 			commandServiceHandler = new CommandHandler(client, service, botPrefix[0]);
 			await commandServiceHandler.InstallCommandsAsync();
 
-			await Task.Delay(-1);
+			if (!noGUI)
+				await Task.Delay(-1);
+		}
+
+		public async Task ShutDown()
+		{
+			if (client != null)
+				await client.StopAsync();
 		}
 
 		private void CommonTasks()
@@ -61,21 +77,25 @@ namespace DiscordBot.Discord.Core
 
 		private Task Ready()
 		{
-			loggedInLabel.Invoke(new MethodInvoker(delegate
-			{
-				loggedInLabel.Text      = "ONLINE";
-				loggedInLabel.ForeColor = Color.Green;
-			}));
+			if (loggedInLabel != null)
+				loggedInLabel.Invoke(new MethodInvoker(delegate
+				{
+					loggedInLabel.Text      = "ONLINE";
+					loggedInLabel.ForeColor = Color.Green;
+				}));
+			else Console.Title = "ONLINE";
 			return Task.CompletedTask;
 		}
 
 		private Task LoggedIn()
 		{
-			loggedInLabel.Invoke(new MethodInvoker(delegate
-			{
-				loggedInLabel.Text      = "CONNECTED";
-				loggedInLabel.ForeColor = Color.Gold;
-			}));
+			if (loggedInLabel != null)
+				loggedInLabel.Invoke(new MethodInvoker(delegate
+				{
+					loggedInLabel.Text      = "CONNECTED";
+					loggedInLabel.ForeColor = Color.Gold;
+				}));
+			else Console.Title = "CONNECTED";
 			WriteLogFile("The bot has been logged in at " + DateTime.Now.ToShortDateString() + " (" +
 						 DateTime.Now.ToShortTimeString() + ")");
 			return Task.CompletedTask;
@@ -83,23 +103,28 @@ namespace DiscordBot.Discord.Core
 
 		private Task Log(LogMessage message)
 		{
-			rtb.Invoke(new MethodInvoker(delegate
+			switch (message.Severity)
 			{
-				switch (message.Severity)
-				{
-					case LogSeverity.Error:
-					case LogSeverity.Critical:
-						WriteErrFile(message.Message);
-						rtb.AppendText("[ERROR] " + message.Message + "\n");
-						break;
+				case LogSeverity.Error:
+				case LogSeverity.Critical:
+					WriteErrFile(message.Message);
+					if (rtb != null)
+						rtb.Invoke(new MethodInvoker(delegate
+						{
+							rtb.AppendText("[ERROR] " + message.Message + "\n");
+						}));
+					else Console.WriteLine("[ERROR] " + message.Message);
+					break;
 
-					case LogSeverity.Info:
-					case LogSeverity.Debug:
-						WriteLogFile(message.Message);
-						rtb.AppendText("[INFO] " + message.Message + "\n");
-						break;
-				}
-			}));
+				case LogSeverity.Info:
+				case LogSeverity.Debug:
+					WriteLogFile(message.Message);
+					if (rtb != null)
+						rtb.Invoke(new MethodInvoker(delegate { rtb.AppendText("[INFO] " + message.Message + "\n"); }));
+					else Console.WriteLine("[INFO] " + message.Message);
+					break;
+			}
+
 			return Task.CompletedTask;
 		}
 	}
