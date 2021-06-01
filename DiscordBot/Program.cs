@@ -29,7 +29,7 @@ namespace DiscordBot
                 HandleInput(args).Wait();
         }
 
-        private static async Task ResetSettings()
+        private static void ResetSettings()
         {
             string[] files = Directory.GetFiles(@".\Data\Resources");
             foreach (string file in files) File.Delete(file);
@@ -181,7 +181,7 @@ namespace DiscordBot
                 switch (message[0])
                 {
                     case "--reset-settings":
-                        await ResetSettings();
+                        ResetSettings();
                         Console.WriteLine("Successfully reseted all settings !");
                         break;
                     case "--help":

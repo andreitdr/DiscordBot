@@ -63,6 +63,12 @@
       <DependentUpon>SettingsFirstRun.cs</DependentUpon>
     </Compile>
     <Compile Include="App\Theme\Theme.cs" />
+    <Compile Include="App\Theme\ThemeSelector.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="App\Theme\ThemeSelector.Designer.cs">
+      <DependentUpon>ThemeSelector.cs</DependentUpon>
+    </Compile>
     <Compile Include="Discord\Core\Boot.cs" />
     <Compile Include="Discord\Core\CommandHandler.cs" />
     <Compile Include="Form1.cs">
@@ -78,6 +84,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="App\FirstTime\SettingsFirstRun.resx">
       <DependentUpon>SettingsFirstRun.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="App\Theme\ThemeSelector.resx">
+      <DependentUpon>ThemeSelector.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>

@@ -43,13 +43,14 @@
             this.labelConnectionStatus = new System.Windows.Forms.Label();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.languageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.downloadPluginsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.panel1 = new System.Windows.Forms.Panel();
             this.themeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.darkToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.lightToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.downloadPluginsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.panel1 = new System.Windows.Forms.Panel();
             this.panelExit = new System.Windows.Forms.Panel();
             this.panelMin = new System.Windows.Forms.Panel();
+            this.downloadThemeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -223,25 +224,12 @@
             this.languageToolStripMenuItem.Size = new System.Drawing.Size(71, 20);
             this.languageToolStripMenuItem.Text = "Language";
             // 
-            // downloadPluginsToolStripMenuItem
-            // 
-            this.downloadPluginsToolStripMenuItem.Name = "downloadPluginsToolStripMenuItem";
-            this.downloadPluginsToolStripMenuItem.Size = new System.Drawing.Size(115, 20);
-            this.downloadPluginsToolStripMenuItem.Text = "Download Plugins";
-            // 
-            // panel1
-            // 
-            this.panel1.Controls.Add(this.richTextBox1);
-            this.panel1.Location = new System.Drawing.Point(12, 28);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(376, 347);
-            this.panel1.TabIndex = 6;
-            // 
             // themeToolStripMenuItem
             // 
             this.themeToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.darkToolStripMenuItem,
-            this.lightToolStripMenuItem});
+            this.lightToolStripMenuItem,
+            this.downloadThemeToolStripMenuItem});
             this.themeToolStripMenuItem.Name = "themeToolStripMenuItem";
             this.themeToolStripMenuItem.Size = new System.Drawing.Size(55, 20);
             this.themeToolStripMenuItem.Text = "Theme";
@@ -258,6 +246,20 @@
             this.lightToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.lightToolStripMenuItem.Text = "Light";
             // 
+            // downloadPluginsToolStripMenuItem
+            // 
+            this.downloadPluginsToolStripMenuItem.Name = "downloadPluginsToolStripMenuItem";
+            this.downloadPluginsToolStripMenuItem.Size = new System.Drawing.Size(115, 20);
+            this.downloadPluginsToolStripMenuItem.Text = "Download Plugins";
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.richTextBox1);
+            this.panel1.Location = new System.Drawing.Point(12, 28);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(376, 347);
+            this.panel1.TabIndex = 6;
+            // 
             // panelExit
             // 
             this.panelExit.Location = new System.Drawing.Point(762, 0);
@@ -271,6 +273,12 @@
             this.panelMin.Name = "panelMin";
             this.panelMin.Size = new System.Drawing.Size(25, 25);
             this.panelMin.TabIndex = 8;
+            // 
+            // downloadThemeToolStripMenuItem
+            // 
+            this.downloadThemeToolStripMenuItem.Name = "downloadThemeToolStripMenuItem";
+            this.downloadThemeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.downloadThemeToolStripMenuItem.Text = "Download Theme";
             // 
             // Form1
             // 
@@ -322,6 +330,7 @@
         private System.Windows.Forms.ToolStripMenuItem lightToolStripMenuItem;
         private System.Windows.Forms.Panel panelExit;
         private System.Windows.Forms.Panel panelMin;
+        private System.Windows.Forms.ToolStripMenuItem downloadThemeToolStripMenuItem;
     }
 }
 
