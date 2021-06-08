@@ -35,6 +35,9 @@
   <PropertyGroup>
     <StartupObject />
   </PropertyGroup>
+  <PropertyGroup>
+    <NoWin32Manifest>true</NoWin32Manifest>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -140,7 +143,7 @@
 del *.config
 del *.pdb
 del *.xml
-ROBOCOPY "$(TargetDir) " "$(TargetDir)Data\lib " /XF *.exe *.bot *.rar *.zip *.manifest /XD Data Output AppData Downloads /E /IS /MOVE
+ROBOCOPY "$(TargetDir) " "$(TargetDir)Data\lib " /XF *.exe *.bot *.rar *.zip *.manifest *.txt /XD Data Output AppData Downloads /E /IS /MOVE
 del *.bot
 rename DiscordBot.exe main.bot
 del *.dll

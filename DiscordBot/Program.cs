@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -84,7 +85,18 @@ namespace DiscordBot
                     case "/help":
                         Console.ForegroundColor = ConsoleColor.DarkYellow;
                         Console.WriteLine(
-                            "/lp | /loadplugins -> load all plugins\n/sd | /shutdown -> close connectong to the server (stop bot)");
+                            "/lp | /loadplugins -> load all plugins\n" +
+                            "/sd | /shutdown -> close connectong to the server (stop bot)\n" +
+                            "/tk | /token -> Display the token that your bot uses");
+                        Console.ForegroundColor = ConsoleColor.White;
+                        break;
+                    case "/token":
+                    case "/tk":
+                        Console.Write("Your token is: ");
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.Write(discordbooter.botToken);
+                        Console.Write("\n");
+                        Console.WriteLine("Never share this token !!!");
                         Console.ForegroundColor = ConsoleColor.White;
                         break;
                     default:
@@ -99,7 +111,9 @@ namespace DiscordBot
             Console.ForegroundColor = ConsoleColor.DarkYellow;
             Console.WriteLine("Discord BOT\n\nCreated by: Wizzy\nDiscord: Wizzy#9181\nCommands:");
             Console.WriteLine(
-                "/lp | /loadplugins -> load all plugins\n/sd | /shutdown -> close connectong to the server (stop bot)");
+                "/lp | /loadplugins -> load all plugins\n" +
+                "/sd | /shutdown -> close connectong to the server (stop bot)\n" +
+                "/tk | /token -> Display the token that your bot uses");
             Console.WriteLine("\n\n");
             Console.ForegroundColor = ConsoleColor.White;
 
@@ -154,6 +168,15 @@ namespace DiscordBot
         private static async Task HandleInput(string[] args)
         {
             int len = args.Length;
+            if (len == 1 && args[0] == "--help")
+            {
+                var c = Console.ForegroundColor;
+                Console.ForegroundColor = ConsoleColor.DarkYellow;
+                Console.WriteLine("Available Commands: \n--exec  ->  Start command line");
+                Console.ForegroundColor = c;
+                Environment.Exit(0);
+                return;
+            }
             if (len == 0 || args[0] != "--exec" && args[0] != "--execute")
             {
                 Application.Run(new Form1());
@@ -164,13 +187,12 @@ namespace DiscordBot
             Console.WriteLine("Execute command interface noGUI\n\n");
             Console.WriteLine(
                 "\tCommand name\t\t\t\tDescription\n" +
-                "-- help | -help\t\t ------ \tDisplay the help message\n" +
+                "--help | -help\t\t ------ \tDisplay the help message\n" +
                 "--reset-full\t\t ------ \tReset all files (clear files)\n" +
                 "--reset-settings\t ------ \tReset only bot settings\n" +
                 "--reset-logs\t\t ------ \tClear up the output folder\n" +
-                "--set-token [token]\t ------ \tSet the bot token\n" +
-                "--set-prefix [prefix]\t ------ \tSet the bot prefix\n" +
-                "exit\t\t\t ------ \tClose the application"
+                "--nogui\t\t\t ------ \tStart the bot without user interface\n" +
+                "--exit | exit\t\t ------ \tClose the application"
             );
             while (true)
             {
@@ -189,13 +211,12 @@ namespace DiscordBot
                         Console.ForegroundColor = ConsoleColor.DarkYellow;
                         Console.WriteLine(
                             "\tCommand name\t\t\t\tDescription\n" +
-                            "-- help | -help\t\t ------ \tDisplay the help message\n" +
+                            "--help | -help\t\t ------ \tDisplay the help message\n" +
                             "--reset-full\t\t ------ \tReset all files (clear files)\n" +
                             "--reset-settings\t ------ \tReset only bot settings\n" +
                             "--reset-logs\t\t ------ \tClear up the output folder\n" +
-                            "--set-token [token]\t ------ \tSet the bot token\n" +
-                            "--set-prefix [prefix]\t ------ \tSet the bot prefix\n" +
-                            "exit\t\t\t ------ \tClose the application"
+                            "--nogui\t\t\t ------ \tStart the bot without user interface\n" +
+                            "--exit | exit\t\t ------ \tClose the application"
                         );
                         break;
                     case "--nogui":
