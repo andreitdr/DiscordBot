@@ -46,11 +46,11 @@
             this.themeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.darkToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.lightToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.downloadThemeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.downloadPluginsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1 = new System.Windows.Forms.Panel();
             this.panelExit = new System.Windows.Forms.Panel();
             this.panelMin = new System.Windows.Forms.Panel();
-            this.downloadThemeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -237,14 +237,20 @@
             // darkToolStripMenuItem
             // 
             this.darkToolStripMenuItem.Name = "darkToolStripMenuItem";
-            this.darkToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.darkToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
             this.darkToolStripMenuItem.Text = "Dark";
             // 
             // lightToolStripMenuItem
             // 
             this.lightToolStripMenuItem.Name = "lightToolStripMenuItem";
-            this.lightToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.lightToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
             this.lightToolStripMenuItem.Text = "Light";
+            // 
+            // downloadThemeToolStripMenuItem
+            // 
+            this.downloadThemeToolStripMenuItem.Name = "downloadThemeToolStripMenuItem";
+            this.downloadThemeToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
+            this.downloadThemeToolStripMenuItem.Text = "Download Theme";
             // 
             // downloadPluginsToolStripMenuItem
             // 
@@ -273,12 +279,6 @@
             this.panelMin.Name = "panelMin";
             this.panelMin.Size = new System.Drawing.Size(25, 25);
             this.panelMin.TabIndex = 8;
-            // 
-            // downloadThemeToolStripMenuItem
-            // 
-            this.downloadThemeToolStripMenuItem.Name = "downloadThemeToolStripMenuItem";
-            this.downloadThemeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.downloadThemeToolStripMenuItem.Text = "Download Theme";
             // 
             // Form1
             // 

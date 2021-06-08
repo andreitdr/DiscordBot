@@ -57,16 +57,20 @@ namespace DiscordBotPluginManager
 
 
         public static string ReadFromPAK(string FileName, string archFile,
-                                         ZipSearchType type = ZipSearchType.ALL_TEXT, string searchPattern = null) {
-            try {
+                                         ZipSearchType type = ZipSearchType.ALL_TEXT, string searchPattern = null)
+        {
+            try
+            {
                 archFile = Path.Combine(pakFolder, archFile);
                 using (var fileStream = new FileStream(archFile, FileMode.Open))
                 using (var zipArchive = new ZipArchive(fileStream, ZipArchiveMode.Read))
                 using (Stream stream = zipArchive.Entries.Where(l => l.Name == FileName || l.FullName == FileName)
                                                  .First().Open())
-                using (var reader = new StreamReader(stream)) {
+                using (var reader = new StreamReader(stream))
+                {
                     string fileData = reader.ReadToEnd();
-                    switch (type) {
+                    switch (type)
+                    {
                         case ZipSearchType.ALL_TEXT:
                             return fileData;
 
@@ -80,19 +84,23 @@ namespace DiscordBotPluginManager
                     }
                 }
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 MessageBox.Show(ex.Message, "Discord Bot Plugin Manager", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return null;
             }
         }
 
-        public static Image ReadImageFromPAK(string FileName, string archFile) {
+        public static Image ReadImageFromPAK(string FileName, string archFile)
+        {
             archFile = Path.Combine(pakFolder, archFile);
-            using (var s = new FileStream(archFile, FileMode.Open)) {
+            using (var s = new FileStream(archFile, FileMode.Open))
+            {
                 var zip = new ZipArchive(s, ZipArchiveMode.Read);
 
                 foreach (ZipArchiveEntry entry in zip.Entries)
-                    if (entry.FullName == FileName || entry.Name == FileName) {
+                    if (entry.FullName == FileName || entry.Name == FileName)
+                    {
                         Stream stream = entry.Open();
                         {
                             Image i = Image.FromStream(stream);
@@ -104,16 +112,20 @@ namespace DiscordBotPluginManager
             return null;
         }
 
-        public static async Task<string> ReadFromPakAsync(string FileName, string archFile) {
+        public static async Task<string> ReadFromPakAsync(string FileName, string archFile)
+        {
             archFile = Path.Combine(pakFolder, archFile);
             Directory.CreateDirectory(pakFolder);
-            if (!File.Exists(archFile)) {
+            if (!File.Exists(archFile))
+            {
                 throw new Exception("Failed to load file !");
             }
             var fs = new FileStream(archFile, FileMode.Open);
             var zip = new ZipArchive(fs, ZipArchiveMode.Read);
-            foreach (var entry in zip.Entries) {
-                if (entry.Name == FileName || entry.FullName == FileName) {
+            foreach (var entry in zip.Entries)
+            {
+                if (entry.Name == FileName || entry.FullName == FileName)
+                {
                     Stream s = entry.Open();
                     StreamReader reader = new StreamReader(s);
                     string text = await reader.ReadToEndAsync();
@@ -127,26 +139,34 @@ namespace DiscordBotPluginManager
             return null;
         }
 
-        public static void WriteLogFile(string LogMessage) {
+        public static void WriteLogFile(string LogMessage)
+        {
             string logsPath = Path.Combine(logFolder, "Log.txt");
             if (!Directory.Exists(logFolder))
                 Directory.CreateDirectory(logFolder);
             File.AppendAllText(logsPath, LogMessage + " \n");
         }
 
-        public static void WriteErrFile(string ErrMessage) {
+        public static void WriteErrFile(string ErrMessage)
+        {
             string errPath = Path.Combine(errFolder, "Error.txt");
             if (!Directory.Exists(errFolder))
                 Directory.CreateDirectory(errFolder);
             File.AppendAllText(errPath, ErrMessage + " \n");
         }
 
-        public static void WriteToSettings(string file, string Code, string newValue, char separator) {
+        public static void WriteToSettings(string file, string Code, string newValue, char separator)
+        {
             string[] lines = File.ReadAllLines(file);
             File.Delete(file);
             bool ok = false;
             foreach (var line in lines)
-                if (line.StartsWith(Code)) { File.AppendAllText(file, Code + separator + newValue + "\r\n"); ok = true; } else File.AppendAllText(file, line + "\r\n");
+                if (line.StartsWith(Code))
+                {
+                    File.AppendAllText(file, Code + separator + newValue + "\r\n");
+                    ok = true;
+                }
+                else File.AppendAllText(file, line + "\r\n");
 
             if (!ok)
                 File.AppendAllText(file, Code + separator + newValue + "\r\n");

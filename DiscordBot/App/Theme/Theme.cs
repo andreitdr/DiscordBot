@@ -14,6 +14,7 @@ namespace DiscordBot.App.Theme
 {
     public class Theme
     {
+        public static Theme CurrentTheme;
         public string ThemeName { get; private set; }
 
         private readonly Color MainBackColor, MainForeColor, SecBackColor, SecForeColor;
@@ -51,6 +52,7 @@ namespace DiscordBot.App.Theme
             form.BackColor = MainBackColor;
             form.ForeColor = MainForeColor;
             foreach (Control c in form.Controls) SetTheme(c);
+            CurrentTheme = this;
         }
 
     }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -20,8 +21,9 @@ namespace DiscordBot
     public partial class Form1 : Form
     {
         private Point mousedownpoint = Point.Empty;
-
         private Boot discordBooter;
+
+
 
         public Form1()
         {
@@ -56,8 +58,7 @@ namespace DiscordBot
         private void LoadLanguage(string name)
         {
             foreach (string file in Directory.EnumerateFiles(langFolder))
-                if (readCodeFromFile(file,
-                                     "LANGUAGE_NAME", '=') == name)
+                if (readCodeFromFile(file, "LANGUAGE_NAME", '=') == name)
                     Language.ActiveLanguage = Language.CreateLanguageFromFile(file);
             if (Language.ActiveLanguage == null)
             {
@@ -411,7 +412,7 @@ namespace DiscordBot
             {
                 if (!Directory.Exists(".\\Data\\Themes"))
                     dark.SetTheme(this);
-                foreach (var file in Directory.GetFiles(".\\Data\\Themes"))
+                foreach (var file in Directory.GetFiles(".\\Data\\Themes", "*.dbtheme", SearchOption.AllDirectories))
                 {
                     if (readCodeFromFile(file, "THEME_NAME", '=') == theme)
                     {
@@ -424,7 +425,5 @@ namespace DiscordBot
 
 
         }
-
-
     }
 }
