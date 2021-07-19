@@ -132,3 +132,5 @@ namespace TestCustomEvent
 }
 
 ```
+
+Check the Cross Platform one here: [Link](https://github.com/Wizzy69/DiscordBotCross-Platform)
