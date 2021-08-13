@@ -2,6 +2,7 @@
 
 ```diff
  - Make sure to use that latest version of Discord .NET
+ - This project will get updates based on the cross-platform version
 ```
 
 Model for plugin:
