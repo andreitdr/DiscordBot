@@ -5,12 +5,12 @@
  - This project will get updates based on the cross-platform version
 ```
 
-Model for plugin:
+Model for Command:
 
 ```cs
 namespace Master_Plugin.Commands.User
 {
-    internal class Random : DiscordBotPluginManager.DBPlugin
+    internal class Random : DiscordBotPluginManager.DBCommand
     {
         // The command name
         // The command name is that string that appears in discord chat along with the prefix
